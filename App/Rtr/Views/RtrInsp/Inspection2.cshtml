@@ -1,0 +1,372 @@
+﻿@model OctaneApp.App.Rtr.Models.RtrInspModel
+@{
+    Layout = null;
+}
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card h-100">
+            <div class="card-header">
+                <div class="float-right">
+                    <button type="button" class="btn btn-primary" onclick="Back()">Back</button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div id="InfoMsg">
+                </div>
+
+                <form class="form">
+                    <div class="form-body">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="row">
+                                    <div class="col-lg-6 mb-6">
+                                        <div class="section">
+                                            <h4 class="form-section">Scanning</h4>
+                                            <div class="form-group row">
+                                                <div class="col-12">
+                                                    @Html.DropDownListFor(model => model.Station,
+                                                            new List<SelectListItem>
+                                                        {
+                                                            new SelectListItem{ Text="A", Value = "1" },
+                                                            new SelectListItem{ Text="B", Value = "2" },
+                                                            new SelectListItem{ Text="C", Value = "3" }
+                                                         }, "Select", htmlAttributes: new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-8">
+                                                    @Html.TextBoxFor(model => model.UnitLabel, htmlAttributes: new { @placeholder = @Html.DisplayNameFor(model => model.UnitLabel), @class = "form-control" })
+                                                </div>
+                                                <div class="col-4">
+
+                                                    @Html.DropDownListFor(model => model.Station,
+                                                            new List<SelectListItem>
+                                                        {
+                                                            new SelectListItem{ Text="P", Value = "1" },
+                                                            new SelectListItem{ Text="F", Value = "2" }
+                                                         }, htmlAttributes: new { @class = "form-control" })
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 mb-6">
+                                        <div class="section">
+                                            <h4 class="form-section">Route</h4>
+                                            <div class="form-group row">
+                                                <div class="col-12">
+                                                    @Html.TextAreaFor(model => model.RouteComments, htmlAttributes: new { @placeholder = @Html.DisplayNameFor(model => model.RouteComments), @class = "form-control" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="section">
+                                            <h4 class="form-section">Defects</h4>
+                                            <div class="row">
+                                                <div class="col-lg-12 mb-4">
+                                                    <div class="section">
+                                                        <h4 class="form-section">Defect Information:</h4>
+                                                        <table class="table table-hover table-bordered table-striped p-0 w-100" style="overflow-y:auto; overflow-x:hidden;">
+                                                            <thead id="tableHeader">
+                                                                <tr>
+                                                                    <th>Location</th>
+                                                                    <th>Defect</th>
+                                                                    <th>Details</th>
+                                                                    <th>Due To</th>
+                                                                    <th>Top/Bottom</th>
+                                                                    <th>SN Impacted</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>
+                                                                        @Html.DropDownListFor(model => model.Location,
+                                                            new List<SelectListItem>
+                                                        {
+                                                            new SelectListItem{ Text="A", Value = "1" },
+                                                            new SelectListItem{ Text="B", Value = "2" },
+                                                            new SelectListItem{ Text="C", Value = "3" }
+                                                         }, "Select", htmlAttributes: new { @class = "form-control" })
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.DropDownListFor(model => model.Defect,
+                                                            new List<SelectListItem>
+                                                        {
+                                                            new SelectListItem{ Text="A", Value = "1" },
+                                                            new SelectListItem{ Text="B", Value = "2" },
+                                                            new SelectListItem{ Text="C", Value = "3" }
+                                                         }, "Select", htmlAttributes: new { @class = "form-control" })
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.DropDownListFor(model => model.Details,
+                                                            new List<SelectListItem>
+                                                        {
+                                                            new SelectListItem{ Text="A", Value = "1" },
+                                                            new SelectListItem{ Text="B", Value = "2" },
+                                                            new SelectListItem{ Text="C", Value = "3" }
+                                                         }, "Select", htmlAttributes: new { @class = "form-control" })
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.DropDownListFor(model => model.DueTo,
+                                                            new List<SelectListItem>
+                                                        {
+                                                            new SelectListItem{ Text="A", Value = "1" },
+                                                            new SelectListItem{ Text="B", Value = "2" },
+                                                            new SelectListItem{ Text="C", Value = "3" }
+                                                         }, "Select", htmlAttributes: new { @class = "form-control" })
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.DropDownListFor(model => model.TB,
+                                                            new List<SelectListItem>
+                                                        {
+                                                            new SelectListItem{ Text="T", Value = "1" },
+                                                            new SelectListItem{ Text="B", Value = "2" }
+                                                         }, "Select", htmlAttributes: new { @class = "form-control" })
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.DropDownListFor(model => model.SNImpacted,
+                                                            new List<SelectListItem>
+                                                        {
+                                                            new SelectListItem{ Text="A", Value = "1" },
+                                                            new SelectListItem{ Text="B", Value = "2" },
+                                                            new SelectListItem{ Text="C", Value = "3" }
+                                                         }, "Select", htmlAttributes: new { @class = "form-control" })
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        @Html.DropDownListFor(model => model.Location,
+                                                            new List<SelectListItem>
+                                                        {
+                                                            new SelectListItem{ Text="A", Value = "1" },
+                                                            new SelectListItem{ Text="B", Value = "2" },
+                                                            new SelectListItem{ Text="C", Value = "3" }
+                                                         }, "Select", htmlAttributes: new { @class = "form-control" })
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.DropDownListFor(model => model.Defect,
+                                                            new List<SelectListItem>
+                                                        {
+                                                            new SelectListItem{ Text="A", Value = "1" },
+                                                            new SelectListItem{ Text="B", Value = "2" },
+                                                            new SelectListItem{ Text="C", Value = "3" }
+                                                         }, "Select", htmlAttributes: new { @class = "form-control" })
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.DropDownListFor(model => model.Details,
+                                                            new List<SelectListItem>
+                                                        {
+                                                            new SelectListItem{ Text="A", Value = "1" },
+                                                            new SelectListItem{ Text="B", Value = "2" },
+                                                            new SelectListItem{ Text="C", Value = "3" }
+                                                         }, "Select", htmlAttributes: new { @class = "form-control" })
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.DropDownListFor(model => model.DueTo,
+                                                            new List<SelectListItem>
+                                                        {
+                                                            new SelectListItem{ Text="A", Value = "1" },
+                                                            new SelectListItem{ Text="B", Value = "2" },
+                                                            new SelectListItem{ Text="C", Value = "3" }
+                                                         }, "Select", htmlAttributes: new { @class = "form-control" })
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.DropDownListFor(model => model.TB,
+                                                            new List<SelectListItem>
+                                                        {
+                                                            new SelectListItem{ Text="T", Value = "1" },
+                                                            new SelectListItem{ Text="B", Value = "2" }
+                                                         }, "Select", htmlAttributes: new { @class = "form-control" })
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.DropDownListFor(model => model.SNImpacted,
+                                                            new List<SelectListItem>
+                                                        {
+                                                            new SelectListItem{ Text="A", Value = "1" },
+                                                            new SelectListItem{ Text="B", Value = "2" },
+                                                            new SelectListItem{ Text="C", Value = "3" }
+                                                         }, "Select", htmlAttributes: new { @class = "form-control" })
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        @Html.DropDownListFor(model => model.Location,
+                                                            new List<SelectListItem>
+                                                        {
+                                                            new SelectListItem{ Text="A", Value = "1" },
+                                                            new SelectListItem{ Text="B", Value = "2" },
+                                                            new SelectListItem{ Text="C", Value = "3" }
+                                                         }, "Select", htmlAttributes: new { @class = "form-control" })
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.DropDownListFor(model => model.Defect,
+                                                            new List<SelectListItem>
+                                                        {
+                                                            new SelectListItem{ Text="A", Value = "1" },
+                                                            new SelectListItem{ Text="B", Value = "2" },
+                                                            new SelectListItem{ Text="C", Value = "3" }
+                                                         }, "Select", htmlAttributes: new { @class = "form-control" })
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.DropDownListFor(model => model.Details,
+                                                            new List<SelectListItem>
+                                                        {
+                                                            new SelectListItem{ Text="A", Value = "1" },
+                                                            new SelectListItem{ Text="B", Value = "2" },
+                                                            new SelectListItem{ Text="C", Value = "3" }
+                                                         }, "Select", htmlAttributes: new { @class = "form-control" })
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.DropDownListFor(model => model.DueTo,
+                                                            new List<SelectListItem>
+                                                        {
+                                                            new SelectListItem{ Text="A", Value = "1" },
+                                                            new SelectListItem{ Text="B", Value = "2" },
+                                                            new SelectListItem{ Text="C", Value = "3" }
+                                                         }, "Select", htmlAttributes: new { @class = "form-control" })
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.DropDownListFor(model => model.TB,
+                                                            new List<SelectListItem>
+                                                        {
+                                                            new SelectListItem{ Text="T", Value = "1" },
+                                                            new SelectListItem{ Text="B", Value = "2" }
+                                                         }, "Select", htmlAttributes: new { @class = "form-control" })
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.DropDownListFor(model => model.SNImpacted,
+                                                            new List<SelectListItem>
+                                                        {
+                                                            new SelectListItem{ Text="A", Value = "1" },
+                                                            new SelectListItem{ Text="B", Value = "2" },
+                                                            new SelectListItem{ Text="C", Value = "3" }
+                                                         }, "Select", htmlAttributes: new { @class = "form-control" })
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+
+
+                                        </div>
+
+
+
+
+                                    </div>
+
+
+                                </div>
+
+
+
+
+                            </div>
+                            <div class="col-6">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="section">
+                                            <h4 class="form-section">Document</h4>
+                                            <div class="form-group row">
+                                                <div class="col-12">
+                                                    <img src="~/Content/img/userdp.jpg"
+/> 
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                //here document File
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="section">
+                                    <h4 class="form-section">Comments</h4>
+                                    <div class="form-group row">
+                                        <div class="col-12">
+                                            @Html.TextAreaFor(model => model.Comments, htmlAttributes: new { @placeholder = @Html.DisplayNameFor(model => model.Comments), @class = "form-control" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer">
+                <div class="float-left">
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#Doc">
+                        <i class="fas fa-file"></i>
+                    </button>
+                    <button type="button" class="btn btn-success">
+                        <i class="fas fa-info"></i>
+                    </button>
+                    <button type="button" class="btn btn-success">
+                        <i class="fas fa-question-circle"></i>
+                    </button>
+
+                </div>
+                <div class="float-right">
+                    <button type="button" class="btn btn-primary">
+                        <i class="ft-check"></i> Done
+                    </button>
+                    <button type="button" class="btn btn-outline-primary mr-1">
+                        <i class="ft-x"></i> Reset
+                    </button>
+                </div>
+
+                <div class="modal fade" id="ErrorMsg">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <h4 class="modal-title">Following error(s) occured:</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <!-- Modal body -->
+                            <div class="modal-body" id="modal-body">
+                            </div>
+
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="Doc">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <h4 class="modal-title">Essential</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <!-- Modal body -->
+                            <div class="modal-body" id="modal-body">
+                                //Here essential info
+                            </div>
+
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

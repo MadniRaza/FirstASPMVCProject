@@ -1,0 +1,631 @@
+﻿@model OctaneApp.App.Adm.Models.AdmPplUpdModel
+@{
+    Layout = null;
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card h-100">
+            <div class="card-header">
+                <div class="float-right">
+                    <button type="button" class="btn btn-primary"  onclick="Back()">Back</button>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <div id="InfoMsg">
+                </div>
+                <form class="form" id="frm">
+                    <div class="form-body">
+                        <div class="row">
+                            <div class="col-10">
+                                <div class="row">
+                                    <div class="col-lg-4 mb-4">
+                                        <div class="section">
+                                            <h4 class="form-section">About</h4>
+                                            <div class="form-group row">
+                                                <div class="col-12">
+                                                    <div class="text-center">
+                                                        <img class="rounded-circle" src="~/Content/img/userdp.jpg" alt="" height="180" width="110">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        @Html.TextBoxFor(model => model.EmpNameFirst, htmlAttributes: new { @placeholder = @Html.DisplayNameFor(model => model.EmpNameFirst), @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        @Html.TextBoxFor(model => model.EmpNameMiddle, htmlAttributes: new { @placeholder = @Html.DisplayNameFor(model => model.EmpNameMiddle), @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        @Html.TextBoxFor(model => model.EmpNameLast, htmlAttributes: new { @placeholder = @Html.DisplayNameFor(model => model.EmpNameLast), @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-md-3">
+                                                    @Html.LabelFor(model => model.EmailAddress, htmlAttributes: new { @class = "form-label" })
+                                                </div>
+                                                <div class="col-md-3">
+                                                    @Html.TextBoxFor(model => model.EmailAddress, htmlAttributes: new { @class = "form-control" })
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group-text">
+                                                                @Html.LabelFor(model => model.EmailDomain, htmlAttributes: new { @class = "form-label" })
+                                                            </div>
+                                                        </div>
+                                                        @Html.DropDownListFor(model => model.EmailDomain, Model.lstEmailDomain, "SELECT", htmlAttributes: new { @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                           
+                                            <div class="form-group row">
+                                                <div class="col-3">
+                                                    @Html.LabelFor(model => model.WinLoginName, htmlAttributes: new { @class = "form-label" })
+                                                </div>
+                                                <div class="col-9">
+                                                    @Html.TextBoxFor(model => model.WinLoginName, htmlAttributes: new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-3">
+                                                    @Html.LabelFor(model => model.ReportToEmpID, htmlAttributes: new { @class = "form-label" })
+                                                </div>
+                                                <div class="col-9">
+                                                    <div class="form-group">
+                                                        @Html.DropDownListFor(model => model.ReportToEmpID, Model.LstRptToEmp, "SELECT", htmlAttributes: new { @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-3">
+                                                    @Html.LabelFor(model => model.TitleID, htmlAttributes: new { @class = "form-label" })
+                                                </div>
+                                                <div class="col-9">
+                                                    <div class="form-group">
+                                                        @Html.DropDownListFor(model => model.TitleID, Model.lstTitles, "SELECT", htmlAttributes: new { @class = "form-control", @onchange = "GetTitleDesc(this.value)" })
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-3">
+                                                    @Html.LabelFor(model => model.TRMPlanDesc, htmlAttributes: new { @class = "form-label" })
+                                                </div>
+                                                <div class="col-9">
+                                                    @Html.TextBoxFor(model => model.TRMPlanDesc, htmlAttributes: new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 mb-4">
+                                        <div class="section">
+                                            <h4 class="form-section">Contact</h4>
+                                            <div class="form-group row">
+                                                <div class="col-3">
+                                                    @Html.LabelFor(model => model.PhoneWork, htmlAttributes: new { @class = "form-label" })
+                                                </div>
+                                                <div class="col-9">
+                                                    @Html.TextBoxFor(model => model.PhoneWork, htmlAttributes: new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-3">
+                                                    @Html.LabelFor(model => model.PhoneCell, htmlAttributes: new { @class = "form-label" })
+                                                </div>
+                                                <div class="col-9">
+                                                    @Html.TextBoxFor(model => model.PhoneCell, htmlAttributes: new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="section">
+                                            <h4 class="form-section">Hiring</h4>
+                                            <div class="form-group row">
+                                                <div class="col-3">
+                                                    @Html.LabelFor(model => model.EmpNmbr, htmlAttributes: new { @class = "form-label" })
+                                                </div>
+                                                <div class="col-3">
+                                                    @Html.TextBoxFor(model => model.EmpNmbr, htmlAttributes: new { @class = "form-control" })
+                                                </div>
+                                                <div class="col-3">
+                                                    @Html.LabelFor(model => model.Shift, htmlAttributes: new { @class = "form-label" })
+                                                </div>
+                                                <div class="col-3">
+                                                    @Html.DropDownListFor(model => model.Shift,
+                                                            new List<SelectListItem>
+                                                        {
+                                                            new SelectListItem{ Text="1", Value = "1" },
+                                                            new SelectListItem{ Text="2", Value = "2" },
+                                                            new SelectListItem{ Text="3", Value = "3" }
+                                                         }, "Select", htmlAttributes: new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-3">
+                                                    @Html.LabelFor(model => model.PayType, htmlAttributes: new { @class = "form-label" })
+                                                </div>
+                                                <div class="col-3">
+                                                    @Html.DropDownListFor(model => model.PayType,
+                                                            new List<SelectListItem>
+                                                        {
+                                                            new SelectListItem{ Text="Salaried", Value = "Salaried" },
+                                                            new SelectListItem{ Text="Hourly", Value = "Hourly" },
+                                                            new SelectListItem{ Text="Temp", Value = "Temp" }
+                                                         }, "Select", htmlAttributes: new { @class = "form-control" })
+                                                </div>
+                                                <div class="col-3">
+                                                    @Html.LabelFor(model => model.WorkAs, htmlAttributes: new { @class = "form-label" })
+                                                </div>
+                                                <div class="col-3">
+                                                    @Html.DropDownListFor(model => model.WorkAs,
+                                                            new List<SelectListItem>
+                                                        {
+                                                            new SelectListItem{ Text="Employee", Value = "Employee" },
+                                                            new SelectListItem{ Text="Contract", Value = "Contract" }
+                                                         }, "Select", htmlAttributes: new { @class = "form-control", @onchange = "CheckWorkAs()" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-3">
+                                                    @Html.LabelFor(model => model.HireOn, htmlAttributes: new { @class = "form-label" })
+                                                </div>
+                                                <div class="col-3">
+                                                    @Html.TextBoxFor(model => model.HireOn, htmlAttributes: new { @type = "date", @class = "form-control" })
+                                                </div>
+                                                <div class="col-3">
+                                                    @Html.LabelFor(model => model.ContractOn, htmlAttributes: new { @class = "form-label" })
+                                                </div>
+                                                <div class="col-3">
+                                                    @Html.TextBoxFor(model => model.ContractOn, htmlAttributes: new {  @type = "date", @class = "form-control" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 mb-4">
+                                        <div class="section">
+                                            <h4 class="form-section">Sites</h4>
+                                            <div class="form-group row">
+                                                <div class="col-3">
+                                                    @Html.LabelFor(model => model.SiteIdAlloc, htmlAttributes: new { @class = "form-label" })
+                                                </div>
+                                                <div class="col-9">
+                                                    @Html.DropDownListFor(model => model.SiteIdAlloc, Model.lstSiteAlloc, "SELECT", htmlAttributes: new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-3">
+                                                    @Html.LabelFor(model => model.SiteIdPhy, htmlAttributes: new { @class = "form-label" })
+                                                </div>
+                                                <div class="col-9">
+                                                    @Html.DropDownListFor(model => model.SiteIdPhy, Model.lstSitePhy, "SELECT", htmlAttributes: new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="section">
+                                            <h4 class="form-section">Other</h4>
+                                            <div class="form-group row">
+                                                <div class="col-3">
+                                                    @Html.LabelFor(model => model.Lingo, htmlAttributes: new { @class = "form-label" })
+                                                </div>
+                                                <div class="col-3">
+                                                    @Html.DropDownListFor(model => model.Lingo,
+                                                            new List<SelectListItem>
+                                                        {
+                                                            new SelectListItem{ Text="English", Value = "English" },
+                                                            new SelectListItem{ Text="French", Value = "French" },
+                                                            new SelectListItem{ Text="Chinese", Value = "Chinese" }
+                                                         }, "Select", htmlAttributes: new { @class = "form-control" })
+                                                </div>
+                                                <div class="col-3">
+                                                    @Html.LabelFor(model => model.ESDType, htmlAttributes: new { @class = "form-label" })
+                                                </div>
+                                                <div class="col-3">
+                                                    @Html.DropDownListFor(model => model.ESDType,
+                                                            new List<SelectListItem>
+                                                        {
+                                                            new SelectListItem{ Text="Dual Shoe", Value = "DS" },
+                                                            new SelectListItem{ Text="Dual Shoe & Wrist", Value = "DSW" }
+                                                         }, "Select", htmlAttributes: new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group row" >
+                                                <div class="col-3">
+                                                    <div class="form-check">
+                                                        <label class="form-check-label">
+                                                            @Html.CheckBoxFor(model => model.InPhoneBook, new { @class = "form-check-input" }) @Html.DisplayNameFor(model => model.InPhoneBook)
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-3">
+                                                    <div class="form-check">
+                                                        <label class="form-check-label">
+                                                            @Html.CheckBoxFor(model => model.IsItar, new { @class = "form-check-input" }) @Html.DisplayNameFor(model => model.IsItar)
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-3">
+                                                    <div class="form-check">
+                                                        <label class="form-check-label">
+                                                            @Html.CheckBoxFor(model => model.IsLeader, new { @class = "form-check-input" }) @Html.DisplayNameFor(model => model.IsLeader)
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-3">
+                                                    <div class="form-check">
+                                                        <label class="form-check-label">
+                                                            @Html.CheckBoxFor(model => model.InGuestLog, new { @class = "form-check-input" }) @Html.DisplayNameFor(model => model.InGuestLog)
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="section">
+                                    <h4 class="form-section">Sites</h4>
+                                    <table class="list-group" style="overflow-y:scroll; height:100px;" id="lstEmpSite">
+                                        <thead>
+                                            <tr>
+                                                <th id="SiteId" style="display:none;"> </th>
+                                                <th id="SiteCode" style="display:none;"> </th>
+                                                <th id="AuthEmpId" style="display:none;"></th>
+                                                <th id="IsChecked" style="display:none;"></th>
+                                                <th id="SiteName" style="display:none;"> </th>
+                                                <th id="DMLType" style="display:none;"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                                <div class="section">
+                                    <h4 class="form-section">Roles</h4>
+                                    <table class="list-group" style="overflow-y:scroll; height:100px;" id="lstEmpRole">
+                                        <thead>
+                                            <tr>
+                                                <th id="RoleId" style="display:none;"> </th>
+                                                <th id="RoleCode" style="display:none;"> </th>
+                                                <th id="AuthEmpId" style="display:none;"></th>
+                                                <th id="IsChecked" style="display:none;"></th>
+                                                <th id="RoleDesc" style="display:none;"> </th>
+                                                <th id="DMLType" style="display:none;"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                                <div class="section">
+                                    <h4 class="form-section">Access</h4>
+                                    <table class="list-group" style="overflow-y:scroll; height:100px;" id="lstEmpAxs">
+                                        <thead>
+                                            <tr>
+                                                <th id="AxsId" style="display:none;"> </th>
+                                                <th id="AxsCode" style="display:none;"> </th>
+                                                <th id="AuthEmpId" style="display:none;"></th>
+                                                <th id="IsChecked" style="display:none;"></th>
+                                                <th id="AxsFullName" style="display:none;"></th>
+                                                <th id="DMLType" style="display:none;"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <div class="card-footer" >
+                <div class="float-right">
+                    <button type="button" class="btn btn-primary" onclick="SendDataToController()">
+                        <i class="ft-check"></i> Save
+                    </button>
+                    <button type="button" class="btn btn-outline-primary mr-1" onclick="Reset()">
+                        Reset
+                    </button>
+
+                </div>
+
+                <div class="modal fade" id="ErrorMsg">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <h4 class="modal-title">Following error(s) occured:</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+
+                            <!-- Modal body -->
+                            <div class="modal-body" id="modal-body">
+
+                            </div>
+
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    @Html.HiddenFor(model => model.TRMPlanID)
+    @Html.HiddenFor(model => model.oldSiteIdPhy)
+    @Html.HiddenFor(model => model.oldTRMPlanID)
+    @Html.HiddenFor(model => model.oldTitleID)
+    @Html.HiddenFor(model => model.EmpId1)
+
+
+</div>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        BindAxsRoleSite();
+
+        //ENABLE DISABLE ON EDIT MODE
+        
+        
+        CheckWorkAs();
+    });
+
+    function Back() {
+        $.ajax({
+            url: '/AdmPplUpd/PplUpdList',
+            success: function (data) {
+                $("#mainBody").empty();
+                $("#mainBody").html(data);
+            }
+        });
+    }
+
+    function BindAxsRoleSite()
+    {
+        var str;
+        var sites = @Html.Raw(Json.Encode(Model.lstEmpSite));
+        $.each(sites, function (i, row) {
+            str = '<tr>';
+            str += '<td style="display:none;">' + row.SiteId +' </td>';
+            str += '<td style="display:none;">' + row.SiteCode +' </td>';
+            str += '<td style="display:none;">' + row.AuthEmpId +' </td>';
+            str +='<td>';
+            str +='<input type="checkbox" id="IsChecked"';
+            if(row.IsChecked)
+            {
+                str+=' checked';
+            }
+            str +='/> '
+            str +='</td>';
+            str += '<td>' + row.SiteName + '</td>';
+            str += '<td style="display:none;">' + row.DMLType+'</td>';
+            str += '</tr>';
+            $('#lstEmpSite > tbody').append(str);
+        });
+
+        var roles = @Html.Raw(Json.Encode(Model.lstEmpRole));
+        $.each(roles, function (i, row) {
+            str = '<tr>';
+            str += '<td style="display:none;">' + row.RoleId +' </td>';
+            str += '<td style="display:none;">' + row.RoleCode +' </td>';
+            str += '<td style="display:none;">'+row.AuthEmpId+'</td>';
+            str +='<td>';
+            str +='<input type="checkbox" id="IsChecked"';
+            if(row.IsChecked)
+            {
+                str+=' checked';
+            }
+            str +='/> '
+            str +='</td>';
+            str += '<td>' + row.RoleDesc + '</td>';
+            str += '<td style="display:none;">' + row.DMLType+'</td>';
+            str += '</tr>';
+            $('#lstEmpRole > tbody').append(str);
+        });
+
+        var axs = @Html.Raw(Json.Encode(Model.lstEmpAxs));
+        $.each(axs, function (i, row) {
+            str = '<tr>';
+            str += '<td style="display:none;">' + row.AxsId +' </td>';
+            str += '<td style="display:none;">' + row.AxsCode +' </td>';
+            str += '<td style="display:none;">'+row.AuthEmpId+'</td>';
+            str +='<td>';
+            str +='<input type="checkbox" id="IsChecked"';
+            if(row.IsChecked)
+            {
+                str+=' checked';
+            }
+            str +='/> '
+            str +='</td>';
+            str += '<td>' + row.AxsNameFull + '</td>';
+            str += '<td style="display:none;">' + row.DMLType+'</td>';
+            str += '</tr>';
+            $('#lstEmpAxs > tbody').append(str);
+        });
+    }
+
+
+    function GetTitleDesc(titleID)
+    {
+        $.ajax(
+          {
+              type: "GET",
+              url: '@Url.Action("GetTitleDetail")', // Controller/View
+              data:{
+                  "titleID" : titleID
+              },
+              contentType: "application/json; charset=utf-8",
+
+              success: function (data) {
+                  $('#ErrorMsg  > .modal-body').empty();
+                  $('#InfoMsg').empty();
+
+                  //IF MODEL HAS ERRORS OR VALIDATION MESSAGES
+                  if (data.IsValid == false) {
+                      $('#modal-body').append(data.Message);
+                      $("#ErrorMsg").modal('show');
+                      return;
+                  }
+
+                  //AFTER MODELSTATE IS VALID
+                  $('#TRMPlanID').val(data.TRMPlanID);
+                  $('#TRMPlanDesc').val(data.TRMPlanDesc);
+
+              },
+              error: function (data) {
+                  var errorMsg = '@Request.RequestContext.HttpContext.Session["ErrorMsg"]';
+                  $('#ErrorMsg > #modal-body').empty();
+                  $('#modal-body').append(errorMsg);
+                  $("#ErrorMsg").modal('show');
+              }
+          });
+    }
+
+    function CheckWorkAs()
+    {
+        var workAs = $("#WorkAs").val();
+        if(workAs == "Employee")
+        {
+            $('#HireOn').prop("disabled",false);
+            $('#ContractOn').prop("disabled",true);
+        }
+        else if(workAs == "Contract")
+        {
+            $('#HireOn').prop("disabled", true);
+            $('#ContractOn').prop("disabled",false);
+        }
+    }
+    function Reset()
+    {
+        $.ajax({
+            url: '/AdmPplUpd/PplUpdSave',
+            success: function (data) {
+                $("#mainBody").empty();
+                $("#mainBody").html(data);
+            }
+        });
+    }
+    function SendDataToController()
+    {
+        var _empSite =[];
+        var _empAxs =[];
+        var _empRole =[];
+
+        $("#lstEmpSite tr").each(function (i) {
+            if (i == 0) return;
+            _empSite.push({
+                SiteId: $('#lstEmpSite tr').eq(i).find('td').eq($('#lstEmpSite #SiteId').index()).text(),
+                SiteCode: $('#lstEmpSite tr').eq(i).find('td').eq($('#lstEmpSite #SiteCode').index()).text(),
+                AuthEmpId: $('#lstEmpSite tr').eq(i).find('td').eq($('#lstEmpSite #AuthEmpId').index()).text(),
+                IsChecked: $('#lstEmpSite tr').eq(i).find('td').eq($('#lstEmpSite #IsChecked').index()).children().prop('checked'),
+                SiteName: $('#lstEmpSite tr').eq(i).find('td').eq($('#lstEmpSite #SiteName').index()).text(),
+                DMLType: $('#lstEmpSite tr').eq(i).find('td').eq($('#lstEmpSite #DMLType').index()).text()
+            });
+        });
+        $("#lstEmpRole tr").each(function (i) {
+            if (i == 0) return;
+            _empRole.push({
+                RoleId: $('#lstEmpRole tr').eq(i).find('td').eq($('#lstEmpRole #RoleId').index()).text(),
+                RoleCode: $('#lstEmpRole tr').eq(i).find('td').eq($('#lstEmpRole #RoleCode').index()).text(),
+                AuthEmpId: $('#lstEmpRole tr').eq(i).find('td').eq($('#lstEmpRole #AuthEmpId').index()).text(),
+                IsChecked: $('#lstEmpRole tr').eq(i).find('td').eq($('#lstEmpRole #IsChecked').index()).children().prop('checked'),
+                RoleDesc: $('#lstEmpRole tr').eq(i).find('td').eq($('#lstEmpRole #RoleDesc').index()).text(),
+                DMLType: $('#lstEmpRole tr').eq(i).find('td').eq($('#lstEmpRole #DMLType').index()).text()
+            });
+        });
+        $("#lstEmpAxs tr").each(function (i) {
+            if (i == 0) return;
+            _empAxs.push({
+                AxsId: $('#lstEmpAxs tr').eq(i).find('td').eq($('#lstEmpAxs #AxsId').index()).text(),
+                AxsCode: $('#lstEmpAxs tr').eq(i).find('td').eq($('#lstEmpAxs #AxsCode').index()).text(),
+                AuthEmpId: $('#lstEmpAxs tr').eq(i).find('td').eq($('#lstEmpAxs #AuthEmpId').index()).text(),
+                IsChecked: $('#lstEmpAxs tr').eq(i).find('td').eq($('#lstEmpAxs #IsChecked').index()).children().prop('checked'),
+                AxsFullName: $('#lstEmpAxs tr').eq(i).find('td').eq($('#lstEmpAxs #AxsFullName').index()).text(),
+                DMLType: $('#lstEmpAxs tr').eq(i).find('td').eq($('#lstEmpAxs #DMLType').index()).text()
+            });
+        });
+
+        var _modelData = {
+            "EmpId1" :  $("#EmpId1").val(),
+            "EmpNameFirst" :  $("#EmpNameFirst").val(),
+            "EmpNameMiddle" : $("#EmpNameMiddle").val(),
+            "EmpNameLast" : $("#EmpNameLast").val(),
+            "EmailAddress" : $("#EmailAddress").val(),
+            "EmailDomain" : $("#EmailDomain").val(),
+            "Lingo" : $("#Lingo").val(),
+            "WinLoginName" : $("#WinLoginName").val(),
+            "SiteIdAlloc" : $("#SiteIdAlloc").val(),
+            "SiteIdPhy" : $("#SiteIdPhy").val(),
+            "PhoneWork" : $("#PhoneWork").val(),
+            "PhoneCell" : $("#PhoneCell").val(),
+            "EmpNmbr" : $("#EmpNmbr").val(),
+            "Shift" : $("#Shift").val(),
+            "PayType" : $("#PayType").val(),
+            "WorkAs" : $("#WorkAs").val(),
+            "HireOn" : $("#HireOn").val(),
+            "ContractOn" : $("#ContractOn").val(),
+            "ReportToEmpID" : $("#ReportToEmpID").val(),
+            "TitleID" : $("#TitleID").val(),
+            "TRMPlanDesc" : $("#TRMPlanDesc").val(),
+            "TRMPlanID" : $("#TRMPlanID").val(),
+            "ESDType" : $("#ESDType").val(),
+            "InPhoneBook" : $("#InPhoneBook").val(),
+            "IsItar" : $("#IsItar").val(),
+            "IsLeader" : $("#IsLeader").val(),
+            "InGuestLog" : $("#InGuestLog").val(),
+            "oldTRMPlanID" : $("#oldTRMPlanID").val(),
+            "oldTitleID" : $("#oldTitleID").val(),
+            "oldSiteIdPhy" : $("#oldSiteIdPhy").val(),
+            "EmpPicFile" : document.getElementById('EmpPicFile').files[0],
+            "lstEmpSite" : _empSite,
+            "lstEmpRole" : _empRole,
+            "lstEmpAxs" : _empAxs
+        };
+        $.ajax(
+           {
+               type: "POST",
+               url: '@Url.Action("PplUpdSave")', // Controller/View
+               data: JSON.stringify(_modelData),
+               enctype: "multipart/form-data",
+               contentType: "application/json; charset=utf-8",
+               dataType: "json",
+               processData: false,
+               cache: false,
+               async:true,
+               success: function (data) {
+                   $('#ErrorMsg  > .modal-body').empty();
+                   $('#InfoMsg').empty();
+
+                   //IF MODEL HAS ERRORS OR VALIDATION MESSAGES
+                   if (data.IsValid == false) {
+                       $('#modal-body').append(data.Message);
+                       $("#ErrorMsg").modal('show');
+                       return;
+                   }
+
+                   //AFTER MODELSTATE IS VALID
+                   $('#InfoMsg').append(data.Message);
+               },
+               error: function (data) {
+                   var errorMsg = '@Request.RequestContext.HttpContext.Session["ErrorMsg"]';
+                   $('#ErrorMsg > #modal-body').empty();
+                   $('#modal-body').append(errorMsg);
+                   $("#ErrorMsg").modal('show');
+               }
+           });
+    }
+</script>

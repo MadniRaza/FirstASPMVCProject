@@ -1,0 +1,107 @@
+﻿@model OctaneApp.App.Bld.Models.BldAsyModel
+
+@{
+    Layout = null;
+}
+
+<div class="row">
+    <div class="col-bg-12 mb-12 w-100">
+        <div class="card h-100">
+            <div class="card-header">
+                <div class="float-left">
+                    <h4>
+                        Assembly
+                    </h4>
+                </div>
+
+                <div class="float-right">
+                    <button type="button" class="btn btn-primary" onclick="Create()">Create</button>
+                </div>
+            </div>
+            <div class="card-body ">
+                <div class="mainList">
+                    <table class="table table-sm table-striped table-bordered p-0" id="tblAsyList">
+                        <thead class="font-weight-bold" id="tableHeader">
+                            <tr>
+                                <th>Site</th>
+                                <th>Customer</th>
+                                <th>Status</th>
+                                <th>Asy No.</th>
+                                <th width="10%">Asy Rev.</th>
+                                <th>Asy Desc.</th>
+                                <th>Lead Free</th>
+                                <th class="text-center" width="5%">Edit</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tblBody">
+                            @{
+                            if (@Model != null)
+                            {
+                                foreach (var oAsy in Model.oAsyList)
+                                {
+                                    <tr class="p-0">
+                                        @Html.HiddenFor(model => oAsy.AsyId)
+                                        @Html.HiddenFor(model => oAsy.SiteId)
+                                        @Html.HiddenFor(model => oAsy.CustPrefix)
+                                        <td>@oAsy.SiteName </td>
+                                        <td>@oAsy.CustName</td>
+                                        <td>@oAsy.CustStatus</td>
+                                        <td>@oAsy.AsyNmbr</td>
+                                        <td>@oAsy.AsyRev</td>
+                                        <td>@oAsy.AsyDesc</td>
+                                        <td>@oAsy.LeadFree</td>
+                                        <td class="td-actions text-xl-center">
+                                            <a class="btn btn-sm" onclick="EditRecord(@oAsy.AsyId)" id="tableOptions">
+                                                <i class="btn-icon-only fas fa-pencil-alt" style="color:white;">
+                                                </i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#tblAsyList').DataTable({
+            "pagingType": "full_numbers",
+            "pageLength": 15
+        });
+    });
+
+    function Create() {
+
+        $.ajax({
+            url: '/BldAsy/AsySave',
+            data: {
+                'asyId': ''
+            },
+            success: function (data) {
+                $("#mainBody").html(data);
+            }
+        });
+    }
+
+    function EditRecord(asyId) {
+        $.ajax({
+            url: '/BldAsy/AsySave',
+            data: {
+
+                'asyId': asyId
+            },
+            success: function (data) {
+                $("#mainBody").html(data);
+            }
+        });
+    }
+
+</script>

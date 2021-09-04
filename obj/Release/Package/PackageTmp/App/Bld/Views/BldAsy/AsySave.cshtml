@@ -1,0 +1,1354 @@
+﻿@model OctaneApp.App.Bld.Models.BldAsyModel
+@{
+    Layout = null;
+}
+
+<div class="row">
+    <div class="col-lg-12 mb-12">
+        <div class="card h-100">
+            <div class="card-header">
+                <div class="float-left">
+                    <h4>
+                        Assembly
+                    </h4>
+                </div>
+
+                <div class="float-right">
+                    <button type="button" class="btn btn-primary" onclick="Back()">Back</button>
+                </div>
+            </div>
+
+            <div class="card-body">
+                @Html.HiddenFor(model => model.AsyId)
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#ParametersTab">Parameters</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#RouteTab">Route</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" onclick="GetAsyGen()" href="#GeneologyTab">Geneology</a>
+                    </li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div id="InfoMsg"></div>
+                    <!--Assembly Parameter-->
+                    <div class="tab-pane active" id="ParametersTab" role="tabpanel">
+                        <div class="row">
+                            <div class="col-lg-3 mb-3">
+                                <form class="form">
+                                    <h6 class="form-section">Site</h6>
+                                    <div class="form-group">
+                                        @Html.DropDownListFor(model => model.SiteId, Model.site, htmlAttributes: new { @class = "form-control", @onchange = "BindCustomers(this.value);" })
+                                    </div>
+                                    <h6 class="form-section"> Source Assembly</h6>
+                                    <div class="form-group row">
+                                        <div class="col-12">
+                                            @Html.TextBoxFor(model => model.AsyNmbr, new { placeholder = @Html.DisplayNameFor(model => model.AsyNmbr), @class = "form-control", onblur = "SetAsyNo(this.value)" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-12">
+                                            <select id="AsyRev" class="form-control" onblur="SetAsyRev(this.value)"></select>
+                                            @*      @Html.TextBoxFor(model => model.AsyRev, new { placeholder = @Html.DisplayNameFor(model => model.AsyRev), @class = "form-control", onblur = "SetAsyRev(this.value)" })*@
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-12">
+                                            @Html.TextBoxFor(model => model.AsyDesc, new { placeholder = @Html.DisplayNameFor(model => model.AsyDesc), @class = "form-control", onblur = "SetAsyDesc(this.value)" })
+                                        </div>
+                                    </div>
+
+                                    <h6 class="form-section">Customer </h6>
+
+                                    <div class="form-group">
+                                        <select id="CustPrefix" class="form-control"></select>
+                                        @*@Html.DropDownListFor(model => model.CustPrefix, Model.customers, "Select Customer", htmlAttributes: new { @class = "form-control" })*@
+                                    </div>
+
+                                    <div class="form-group row">
+                                        @Html.LabelFor(model => model.BuildType, htmlAttributes: new { @class = "col-4 col-form-label" })
+                                        <div class="col-8">
+                                            @Html.DropDownListFor(model => model.BuildType, Model.buildType, "Select Type", new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        @Html.LabelFor(model => model.CleanType, htmlAttributes: new { @class = "col-4 col-form-label" })
+                                        <div class="col-8">
+                                            @Html.DropDownListFor(model => model.CleanType, Model.cleanType, "Select Type", new { @class = "form-control" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        @Html.LabelFor(model => model.UnitType, htmlAttributes: new { @class = "col-4 col-form-label" })
+                                        <div class="col-8">
+                                            @Html.DropDownListFor(model => model.UnitType, Model.unitType, "Select Type", new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        @*<label class="col-3 col-form-label">Lead</label>*@
+                                        @Html.LabelFor(model => model.Leadfree, new { @class = "col-4 col-form-label" })
+                                        <div class="col-3">
+                                            @Html.DropDownListFor(model => model.Leadfree,
+                                            new List<SelectListItem>
+                                            {
+                                            new SelectListItem {  Text= "Yes", Value= "true", Selected= true},
+                                            new SelectListItem { Text="No", Value="false"}
+                                            }, htmlAttributes: new { @class = "form-control" })
+
+                                        </div>
+
+                                        @Html.LabelFor(model => model.Status, new { @class = "col-2 col-form-label" })
+                                        <div class="col-3">
+                                            @Html.DropDownListFor(model => model.Status,
+                                            new List<SelectListItem>
+                                            {
+                                            new SelectListItem {Text ="Open", Value="true" , Selected = true },
+                                            new SelectListItem {Text ="Close", Value="false"}
+
+                                            }, htmlAttributes: new { @class = "form-control" })
+                                        </div>
+
+                                        @*<div class="col-6 toggle-flip">
+                                            <label>
+
+                                            <input type="checkbox"><span class="flip-indecator" data-toggle-on="ON" data-toggle-off="OFF"></span>
+                                            </label>
+                                            </div>*@
+
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="col-lg-3 mb-3">
+                                <form class="form">
+                                    <h6 class="form-section">Customer Assembly</h6>
+                                    <div class="form-group row">
+                                        <div class="col-12">
+                                            @Html.TextBoxFor(model => model.CustAsyNmbr, new { placeholder = @Html.DisplayNameFor(model => model.CustAsyNmbr), @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-12">
+                                            @Html.TextBoxFor(model => model.CustAsyRev, new { placeholder = @Html.DisplayNameFor(model => model.CustAsyRev), @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-12">
+                                            @Html.TextBoxFor(model => model.CustAsyDesc, new { placeholder = @Html.DisplayNameFor(model => model.CustAsyDesc), @class = "form-control" })
+                                        </div>
+                                    </div>
+
+                                    <h6 class="form-section">
+                                        Opportunities
+                                    </h6>
+                                    <div class="form-group row">
+                                        <label class="col-3"></label>
+                                        <label class="col-3 form-group">Top</label>
+                                        <label class="col-3 form-group">Bottom</label>
+                                        <label class="col-3 form-group">TH</label>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-3 col-form-label">Comp.</label>
+                                        <div class="form-group col-3">
+                                            @Html.TextBoxFor(model => model.CompTop, new { placeholder = @Html.DisplayNameFor(model => model.CompTop), @class = "form-control" })
+                                        </div>
+                                        <div class="form-group col-3">
+                                            @Html.TextBoxFor(model => model.CompBot, new { placeholder = @Html.DisplayNameFor(model => model.CompBot), @class = "form-control" })
+                                        </div>
+                                        <div class="form-group col-3">
+                                            @Html.TextBoxFor(model => model.ThComp, new { placeholder = @Html.DisplayNameFor(model => model.ThComp), @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-3 col-form-label">Pin</label>
+                                        <div class="form-group col-3">
+                                            @Html.TextBoxFor(model => model.SldrTop, new { placeholder = @Html.DisplayNameFor(model => model.SldrTop), @class = "form-control" })
+                                        </div>
+                                        <div class="form-group col-3">
+                                            @Html.TextBoxFor(model => model.SldrBot, new { placeholder = @Html.DisplayNameFor(model => model.SldrBot), @class = "form-control" })
+                                        </div>
+                                        <div class="form-group col-3">
+                                            @Html.TextBoxFor(model => model.ThPins, new { placeholder = @Html.DisplayNameFor(model => model.ThPins), @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.TextAreaFor(model => model.AsyCmnts, new { placeholder = @Html.DisplayNameFor(model => model.AsyCmnts), @class = "form-control", @rows = 4 })
+                                    </div>
+                                </form>
+
+                            </div>
+
+                            <div class="col-lg-3 mb-3">
+                                <form class="form">
+                                    <h6 class="form-section">PCB Number </h6>
+                                    <div class="form-group row">
+                                        <div class="col-12">
+                                            @Html.TextBoxFor(model => model.PcbaNmbr, new { placeholder = @Html.DisplayNameFor(model => model.PcbaNmbr), @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-12">
+                                            @Html.TextBoxFor(model => model.PcbaRev, new { placeholder = @Html.DisplayNameFor(model => model.PcbaRev), @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-12">
+                                            @Html.TextBoxFor(model => model.PcbaDesc, new { placeholder = @Html.DisplayNameFor(model => model.PcbaDesc), @class = "form-control" })
+                                        </div>
+                                    </div>
+
+                                    <h6 class="form-section">SPHM(mils)</h6>
+                                    <div class="form-group row">
+                                        <label class="col-4"></label>
+                                        <label class="col-4 form-group">Top</label>
+                                        <label class="col-4 form-group">Bottom</label>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-4 col-form-label">Upper</label>
+                                        <div class="form-group col-4">
+                                            @Html.TextBoxFor(model => model.SldrHeightTopUpper, new { placeholder = @Html.DisplayNameFor(model => model.SldrHeightTopUpper), @class = "form-control" })
+
+                                        </div>
+                                        <div class="form-group col-4">
+                                            @Html.TextBoxFor(model => model.SldrHeightTopLower, new { placeholder = @Html.DisplayNameFor(model => model.SldrHeightTopLower), @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-4 col-form-label">Lower</label>
+                                        <div class="form-group col-4">
+                                            @Html.TextBoxFor(model => model.SldrHeightBotUpper, new { placeholder = @Html.DisplayNameFor(model => model.SldrHeightBotUpper), @class = "form-control" })
+                                        </div>
+                                        <div class="form-group col-4">
+                                            @Html.TextBoxFor(model => model.SldrHeightBotLower, new { placeholder = @Html.DisplayNameFor(model => model.SldrHeightBotLower), @class = "form-control" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+
+                                        <label class="col-4 col-form-label">Scan Solder#</label>
+
+                                        <div class="form-group col-8">
+                                            <input class="form-control" type="text" placeholder="Scan Solder#" id="solderPin" onblur="ScanSolder(this.value)">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <table class="list-group" style="overflow-y:scroll; border-width:100px 2px thin; height:100px;" id="lstSP">
+                                            <thead>
+                                                <tr>
+                                                    <th id="sldrPin" style="display:none;"></th>
+                                                    <th id="DMLType" style="display:none;"></th>
+                                                    <th id="action" style="display:none;"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+
+                                        @*@Html.TextAreaFor(model => model.SldrPin, new { placeholder = @Html.DisplayNameFor(model => model.SldrPin), @class = "form-control", @row = 2 })*@
+                                        @*<textarea id="txtComments" rows="2" class="form-control" name="comment" placeholder="Solder List"></textarea>*@
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="col-lg-3 mb-3">
+                                <form class="form">
+                                    <h6 class="form-section">Information </h6>
+
+                                    <div class="form-group form-check row">
+                                        <div class="col-4">
+                                            <label class="form-check-label">
+                                                @Html.CheckBoxFor(model => model.IsPnlUnit, new { @class = "form-check-input" })Is Panel ?
+                                            </label>
+                                        </div>
+                                        <div class="col-4">
+                                            <label class="form-check-label">
+                                                <input type="checkbox" class="form-check-input" value="">Is Route ?
+                                            </label>
+                                        </div>
+                                        <div class="col-4">
+                                            <label class="form-check-label">
+                                                <input type="checkbox" class="form-check-input" value="">Is BOM ?
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group form-check row">
+                                        <div class="col-4">
+                                            <label class="form-check-label">
+                                                @Html.CheckBoxFor(model => model.IsItar, new { @class = "form-check-input" })Is ITAR ?
+                                            </label>
+                                        </div>
+                                        <div class="col-4">
+                                            <label class="form-check-label">
+                                                @Html.CheckBoxFor(model => model.IsFda, new { @class = "form-check-input" })Is FDA ?
+                                            </label>
+                                        </div>
+                                        <div class="col-4">
+                                            <label class="form-check-label">
+                                                @Html.CheckBoxFor(model => model.IsAte, new { @class = "form-check-input" })Is ATE ?
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group form-check row">
+                                        <div class="col-4">
+                                            @Html.TextBoxFor(model => model.UnitPrPnl, new { placeholder = @Html.DisplayNameFor(model => model.UnitPrPnl), @class = "form-control col-4" })
+                                            @*<input class="form-control col-4" type="text" placeholder="UPP" id="txtComptop">*@
+                                        </div>
+                                        <div class="col-4">
+                                            <label class="form-check-label">
+                                                @Html.CheckBoxFor(model => model.AllowExtraItem, new { @class = "form-check-input" })Allow Extra Item
+                                            </label>
+                                        </div>
+                                        <div class="col-4">
+                                            <label class="form-check-label">
+                                                @Html.CheckBoxFor(model => model.StrictMrg, new { @class = "form-check-input" })Strict Merge
+                                            </label>
+                                        </div>
+
+
+                                    </div>
+                                    <h6 class="form-section">Paking & Shipping Information</h6>
+                                    <div class="form-group form-check row">
+                                        <div class="col-8">
+                                            <label class="form-check-label">
+                                                @Html.CheckBoxFor(model => model.PackCoc, new { @class = "form-check-input" })Pack COC
+                                            </label>
+                                        </div>
+                                        <div class="col-4">
+                                            <label class="form-check-label">
+                                                @Html.CheckBoxFor(model => model.AutoShip, new { @class = "form-check-input" })Auto Ship
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" id="customFile">
+                                            <label class="custom-file-label" for="customFile">Choose file</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.TextAreaFor(model => model.ShipInstruction, new { placeholder = @Html.DisplayNameFor(model => model.ShipInstruction), @class = "form-control", @rows = 6 })
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="float-right">
+                            <button type="button" class="btn btn-outline-warning mr-1" onclick="ClearControls()">
+                                <i class="ft-x"></i> Cancel
+                            </button>
+                            @*<button type="submit" class="btn btn-outline-primary" onclick="SendDataToController()" data-toggle="modal" data-target="#myModal">*@
+                            <button type="submit" class="btn btn-outline-primary" onclick="SendDataToController()">
+                                <i class="ft-check"></i> Save
+                            </button>
+                        </div>
+                    </div>
+
+                    <!--Route -->
+                    <div class="tab-pane" id="RouteTab">
+                        @*<p class="card-text">This is Geneology Tab</p>*@
+                        <div class="row w-100">
+                            <div class="col-lg-12 h-100">
+                                <div class="card-body h-100">
+                                    <table class="table table-sm table-striped table-bordered p-0 h-100">
+                                        <thead id="tableHeader">
+                                            <tr>
+                                                <th>Step</th>
+                                                <th>Process</th>
+                                                <th>Insp?</th>
+                                                <th>Sample Type</th>
+                                                <th>Sample Size</th>
+                                                <th>Pass-To</th>
+                                                <th>SkipTo</th>
+                                                <th>Cycle</th>
+                                                <th>Labor</th>
+                                                <th>Takt</th>
+                                                <th>Pause</th>
+                                                <th>Sign-Off</th>
+                                                <th>Batch</th>
+                                                <th>Hold-Mins</th>
+                                                <th>Document</th>
+                                                <th>Comments</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tblRoutebody" class="h-100">
+                                            <tr>
+                                                <td>0</td>
+                                                <td>Start</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>7</td>
+                                                <td>ESS Test</td>
+                                                <td>Y</td>
+                                                <td>1 Of</td>
+                                                <td>1</td>
+                                                <td>500</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <fieldset>
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <div class="form-section">
+                                        <div class="form-group row">
+                                            <label class="col-3 col-form-label">Process:</label>
+                                            <div class="col-9">
+                                                <select id="cmbBuildType" class="form-control">
+                                                    <option value="AMS">Select from list</option>
+                                                    <option value="NPI">Troubleshoot</option>
+                                                    <option value="PROD">Rework</option>
+                                                    <option value="RMA">Audit Test</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-3 col-form-label">Sample Type:</label>
+                                            <div class="col-9">
+                                                <select id="cmbBuildType" class="form-control">
+                                                    <option value="AMS">1 Of</option>
+                                                    <option value="NPI">Troubleshoot</option>
+                                                    <option value="PROD">Rework</option>
+                                                    <option value="RMA">Audit Test</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-3 col-form-label">Sample Size:</label>
+                                            <div class="col-9">
+                                                <input class="form-control" type="text" placeholder="0" id="txtAsySrcNum">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-3 col-form-label">Hold Mins:</label>
+                                            <div class="col-9">
+                                                <input class="form-control" type="text" placeholder="0" id="txtAsySrcNum">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-3 col-form-label"></label>
+                                            <div class="col-9">
+                                                <label class="form-check-label">
+                                                    <input type="checkbox" class="form-check-input" value="">Is Insp?
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-section">
+                                        <div class="form-group row">
+                                            <label class="col-3 col-form-label">Step:</label>
+                                            <div class="col-9">
+                                                <input class="form-control" type="text" placeholder="10" id="txtStep">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-3 col-form-label">Pass To:</label>
+                                            <div class="col-9">
+                                                <input class="form-control" type="text" placeholder="10" id="txtStep">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-3 col-form-label">Skip To:</label>
+                                            <div class="col-9">
+                                                <input class="form-control" type="text" placeholder="10" id="txtStep">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3">
+                                    <div class="form-section">
+                                        <div class="form-group row">
+                                            <label class="col-3 col-form-label">Cycle Time:</label>
+                                            <div class="col-9">
+                                                <input class="form-control" type="text" placeholder="0" id="txtStep">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-3 col-form-label">Labor Time:</label>
+                                            <div class="col-9">
+                                                <input class="form-control" type="text" placeholder="0" id="txtStep">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-3 col-form-label">Takt Time:</label>
+                                            <div class="col-9">
+                                                <input class="form-control" type="text" placeholder="0" id="txtStep">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row text-xl-right">
+                                            <label class="col-3 col-form-label"></label>
+                                            <div class="col-9">
+                                                <button type="submit" class="btn btn-outline-primary">
+                                                    <i class="ft-check"></i> Save Line
+                                                </button>
+                                                <button type="button" class="btn btn-outline-warning mr-1">
+                                                    <i class="ft-x"></i> Cancel
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </fieldset>
+                        <div class="float-right">
+                            <button type="button" class="btn btn-outline-warning mr-1">
+                                <i class="ft-x"></i> Edit
+                            </button>
+
+                            @*<button type="submit" class="btn btn-outline-primary" onclick="SendDataToController()" data-toggle="modal" data-target="#myModal">*@
+                            <button type="submit" class="btn btn-outline-primary">
+                                <i class="ft-check"></i> Save
+                            </button>
+                            <button type="button" class="btn btn-outline-warning mr-1">
+                                <i class="ft-x"></i> Copy Route
+                            </button>
+                        </div>
+                    </div>
+
+                    <!--Geneology -->
+                    <div class="tab-pane" id="GeneologyTab">
+                        @*<p class="card-text">This is Router Tab</p>*@
+                        <div class="row h-100">
+                            <div class="col-lg-6 mb-3">
+                                <div class="card-body h-100">
+                                    <table class="table table-sm table-striped table-bordered p-0" id="GenLst">
+                                        <thead class="font-weight-bold" id="tableHeader">
+                                            <tr>
+                                                <th id="cAsyId" style="display:none;"></th>
+                                                <th id="cAsyNmbr" style="display:none;"></th>
+                                                <th id="cAsyRev" style="display:none;"></th>
+                                                <th id="cSiteId" style="display:none;"></th>
+                                                <th id="cSiteCode" style="display:none;"></th>
+                                                <th id="cCustPrefix" style="display:none;"></th>
+                                                <th id="cLineNmbr" width="2%">Line#</th>
+                                                <th id="cSubAsyRqd" class="text-xl-center" width="10%">Sub Asy</th>
+                                                <th id="cSubRevRqd" class="text-xl-center" width="10%">Sub Rev</th>
+                                                <th id="cSubDesc" class="text-xl-center" width="20%">Description</th>
+                                                <th id="cIsRqd" class="text-xl-center" width="2%">Rqd</th>
+                                                <th id="cIsUnique" class="text-xl-center" width="3%">Unique</th>
+                                                <th id="cIsInternal" class="text-xl-center" width="2%">Internal</th>
+                                                <th id="cMrgType" class="text-xl-center" width="10%">Merge Type</th>
+                                                <th id="cDMLType" class="text-xl-center" style="display:none;"></th>
+                                                <th class="text-center" width="10%">Action</th>
+                                            </tr>
+
+                                        </thead>
+                                        <tbody id="tblGenBody"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 mb-3">
+                                <form class="form-section">
+                                    <div class="form-group row">
+                                        <label class="col-3 col-form-label">Line#</label>
+                                        <div class="col-9">
+                                            <input class="form-control" type="text" placeholder="" id="LineNmbr">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        @Html.LabelFor(model => model.MrgType, new { @class = "col-3 col-form-label" })
+                                        <div class="col-9">
+                                            @Html.DropDownListFor(model => model.MrgType, Model.mergeType, htmlAttributes: new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        @Html.LabelFor(model => model.IsRqd, new { @class = "col-3 col-form-label" })
+                                        <div class="col-9">
+                                            @Html.DropDownListFor(model => model.IsRqd,
+                                            new List<SelectListItem>
+                                            {
+                                            new SelectListItem {Text ="Yes", Value="true" , Selected = true },
+                                            new SelectListItem {Text ="No", Value="false"}
+
+                                            }, htmlAttributes: new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        @Html.LabelFor(model => model.IsUnique, new { @class = "col-3 col-form-label" })
+                                        <div class="col-9">
+                                            @Html.DropDownListFor(model => model.IsUnique,
+                                            new List<SelectListItem>
+                                            {
+                                            new SelectListItem {Text ="No", Value="N" },
+                                            new SelectListItem {Text ="Between Customer", Value="B"},
+                                            new SelectListItem {Text ="By Customer", Value="C"},
+                                            new SelectListItem {Text ="Through All", Value="A"},
+
+                                            }, htmlAttributes: new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="form-group row">
+                                        @Html.LabelFor(model => model.SubAsy, new { @class = "col-3 col-form-label" })
+                                        <div class="col-9">
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend bg-light">
+                                                        <div class="input-group-text">
+                                                            <input type="text" class="form-control" id="txtSubAsy" onblur="GetSubAsyRev()" />
+                                                        </div>
+                                                    </div>
+                                                    @Html.DropDownListFor(model => model.SubAsy, Model.subAsy, htmlAttributes: new { @class = "form-control", @onchange = "GetSubAsy(this.value);" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-3 col-form-label">Sub Rev.</label>
+                                        <div class="col-9">
+
+                                            <table class="list-group" style="overflow-y:scroll; border-width:100px 2px thin; height:100px;" id="lstSubRev">
+                                                <thead>
+                                                    <tr>
+                                                        <th id="AsyNmbr" style="display:none;"></th>
+                                                        <th id="AsyDesc" style="display:none;"></th>
+                                                        <th id="chkSubRev" style="display:none;"></th>
+                                                        <th id="AsyRev" style="display:none;"></th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="lstSubRevBody"></tbody>
+                                            </table>
+                                            @*<textarea class="form-control" type="text" placeholder="" id="txtSubRev" rows="4"></textarea>*@
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-3 col-form-label"></label>
+                                        <div class="col-9">
+                                            <label class="form-check-label">
+                                                <input type="checkbox" class="form-check-input" value="" id="chkRevs">Select All Revs
+                                            </label>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-lg-3 mb-3">
+                                <form class="form-section">
+                                    <div class="form-group row">
+                                        <div class="col-6">
+                                            <textarea class="form-control" type="text" placeholder="" id="txtDesc" rows="6"></textarea>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    @*<div class="form-group row text-center">
+                                            <div class="col-6">
+                                                <button type="button" class="btn btn-warning mr-1" id="btnReset">
+                                                    <i class="ft-x"></i> Cancel
+                                                </button>
+
+                                                <button type="submit" class="btn btn-primary" id="btnSaveLine">
+                                                    <i class="ft-check"></i> Add Line
+                                                </button>
+                                            </div>
+                                        </div>*@
+                                </form>
+                            </div>
+
+                        </div>
+                        <div class="float-right">
+                            <button type="button" class="btn btn-warning mr-1" id="btnReset">
+                                <i class="ft-x"></i> Cancel
+                            </button>
+                            <button type="button" class="btn btn-warning mr-1" id="btnAddLine" onclick="EnableControlls()">
+                                <i class="ft-x"></i> Add Line
+                            </button>
+                            @*<button type="submit" class="btn btn-outline-primary" onclick="SendDataToController()" data-toggle="modal" data-target="#myModal">*@
+                            <button type="submit" class="btn btn-primary" id="btnSaveChanges">
+                                <i class="ft-check"></i> Save
+                            </button>
+                        </div>
+                    </div>
+
+                    <!--Popup Model -->
+                    <div class="modal fade" id="ErrorMsg">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Following error(s) occured:</h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+
+                                <!-- Modal body -->
+                                <div class="modal-body" id="modal-body">
+
+                                </div>
+
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="card-footer">
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!--Assembly Parameter Script-->
+<script type="text/javascript">
+    // ASSIGNING ASY NO TO OTHER CONTROL AND CHECK EXISTING ASY//
+    function SetAsyNo(AsyNum) {
+        var asyNmbr = $('#AsyNmbr').val();
+        var sid = $('#SiteId').val();
+        var arr = sid.split('@@')
+        var siteId = arr[0];
+        var asyId = $('#AsyId').val();
+        $('#AsyRev').empty();
+        $.ajax({
+
+            type: 'GET',
+            url: '@Url.Action("CheckAsy")',
+            datatype: JSON,
+            data: {
+                asyId : asyId,
+                asyNmbr: asyNmbr,
+                siteId : siteId
+            },
+            success: function (data){
+
+                //FILLING REV
+                if (data.Rev != null)
+                {
+                    $.each(data.Rev, function(i, row){
+                        var str;
+                        str +='<option value="' + row.Value + '">' + row.Text  + '</option>';
+                        $('#AsyRev').append(str);
+                    });
+                }
+                else
+                {
+                    var str;
+                    str ='<option value="' + 'a' + '">' + 'a'  + '</option>';
+                    $('#AsyRev').append(str);
+                }
+
+                $('#modal-body').empty();
+                $('#InfoMsg').empty();
+
+                //IF MODEL HAS ERRORS OR VALIDATION MESSAGES
+                if (data.isValid == false) {
+                    $('#CustAsyNmbr').val(AsyNum)
+                    $('#PcbaNmbr').val(AsyNum)
+                    return;
+                }
+                else
+                {
+                    //AFTER MODELSTATE IS VALID
+                    $('#modal-body').append(data.Message);
+                    $("#ErrorMsg").modal('show');
+                }
+            },
+
+            error: function (data) {
+                var errorMsg = '@Request.RequestContext.HttpContext.Session["ErrorMsg"]';
+                $('#ErrorMsg > #modal-body').empty();
+                $('#modal-body').append(errorMsg);
+                $("#ErrorMsg").modal('show');
+            }
+        });
+    }
+
+    // ASSIGNING ASY REV TO OTHER CONTROL AND CHECK EXISTING ASY REV//
+    function SetAsyRev(AsyRev) {
+        if(AsyRev == null)
+        {
+            alert("Please Select Asy.Rev")
+        }
+        else
+        {
+            var sid = $('#SiteId').val();
+            var  arr = sid.split('@@')
+            var siteId = arr[0];
+            var asyNmbr = $('#AsyNmbr').val();
+            var asyRev = AsyRev;
+            $.ajax({
+
+                type: 'GET',
+                url : '@Url.Action("CheckAsyRev")',
+                datatype : JSON,
+                data: {
+                    asyNmbr : asyNmbr,
+                    asyRev : asyRev,
+                    siteId : siteId
+                },
+                success: function (data){
+
+                    $('#modal-body').empty();
+                    $('#InfoMsg').empty();
+
+                    //IF MODEL HAS ERRORS OR VALIDATION MESSAGES
+                    if (data.isValid == false) {
+                        $('#CustAsyRev').val(AsyRev);
+                        $('#PcbaRev').val(AsyRev);
+                        $('#SiteId').prop('Enabled', 'Enabled');
+                        $('#CustPrefix').prop('Enabled', 'Enabled');
+                        return;
+                    }
+                    else
+                    {
+                        //AFTER MODELSTATE IS VALID
+                        $('#modal-body').append(data.Message);
+                        $("#ErrorMsg").modal('show');
+                        $('#SiteId').prop('disabled', 'disabled');
+                        $('#CustPrefix').prop('disabled', 'disabled');
+                    }
+                },
+
+                error: function (data) {
+                    var errorMsg = '@Request.RequestContext.HttpContext.Session["ErrorMsg"]';
+                    $('#ErrorMsg > #modal-body').empty();
+                    $('#modal-body').append(errorMsg);
+                    $("#ErrorMsg").modal('show');
+                }
+
+            });
+        }
+    }
+
+    // ASSIGNING ASY DESC TO OTHER CONTROL//
+    function SetAsyDesc(AsyDesc) {
+        $('#CustAsyDesc').val(AsyDesc)
+        $('#PcbaDesc').val(AsyDesc)
+    }
+
+    function BindCustomers(value)
+    {
+        // SPLIT ID AND SITECODE //
+        var arr = value.split('@@')
+        var siteId = arr[0];
+        var siteCode = arr[1];
+
+        $('#CustPrefix').empty();
+        $.ajax({
+            type : 'GET',
+            url: '@Url.Action("GetCustomers")',
+            datatype: JSON,
+            data: {
+                siteId :siteId,
+                siteCode:siteCode
+            },
+            success: function(data) {
+                $.each(data, function(i, row){
+                    var str;
+
+                    @*if(@Html.Raw(Json.Encode(@Model.SiteId)) == row.Value)
+                    {
+
+                        str = '<option value ="' + row.Value + '" selected>' + row.Text  + '</option>';
+
+                    }
+                    else
+                    {}*@
+
+                    str = '<option value="' + row.Value + '">' + row.Text  + '</option>';
+                    $('#CustPrefix').append(str);
+
+                });
+            },
+
+            error: function(data){
+                var errorMsg = '@Request.RequestContext.HttpContext.Session["ErrorMsg"]';
+                $('#ErrorMsg > #modal-body').empty();
+                $('#modal-body').append(errorMsg);
+                $("#ErrorMsg").modal('show');
+            }
+
+        });
+    }
+
+    function ScanSolder(value)
+    {
+
+
+        //$("#lstSP tr").each(function(i){
+
+        //    var  sldrpin =  $('#lstSP tr').eq(i).find('td').eq($('#lstSP #sldrPin').index()).text();
+        //    if (value.Text == sldrpin.toString())
+        //    {
+        //        alert("test");
+        //    }
+
+        //    // alert(sldr);
+        //    //if(sldrpin == sldr)
+        //    // {
+        //    //     alert(sldr);
+        //    //     alert('Solder Nmbr is duplicate');
+        //    //     //return;
+        //    // }
+
+        //});
+
+
+        if ( value!= "")
+        {
+            var str = "";
+            str +="<tr>";
+            str += '<td width="85px">' + value +' </td>';
+            str += '<td style="display:none;">I</td>';
+            str += "<td  width='15px'>";
+            str += "<a role='button' id='btnRemoveSolder' onclick='RemoveSolder(this)' class='btn btn-sm'>";
+            str += "<i  class='btn-icon-only fas fa-trash-alt' style='color:white;background-color:red;font-size: 20px;'></i>";
+            str += "</a>";
+            str += "</td>";
+            str +="</tr>";
+
+            $('#lstSP > tbody' ).append(str);
+        }
+
+
+        $('#solderPin').val(" ");
+
+    }
+
+    function RemoveSolder(value)
+    {
+        var columnIndex = $('#lstSP #DMLType').index();
+        var currentRow = $(value).closest("tr");
+        currentRow.find('td').eq(columnIndex).text('D');
+
+        var dmlType = currentRow.find('td').eq(columnIndex).text();
+
+        if (dmlType == 'I')
+        {
+            currentRow.remove();
+            return;
+        }
+        currentRow.find('td').eq($('#lstSP #sldrPin').index()).text();
+        currentRow.hide();
+    }
+
+
+    function SendDataToController() {
+
+        var _slderList = [];
+
+        $("#lstSP tr").each(function(i){
+            if(i==0) return;
+            _slderList.push ({
+                sldrPin : $('#lstSP tr').eq(i).find('td').eq($('#lstSP #sldrPin').index()).text(),
+                DMLType : $('#lstSP tr').eq(i).find('td').eq($('#lstSP #DMLType').index()).text()
+            });
+        });
+
+        var passingData = {
+            "AsyId": $('#AsyId').val(),
+            "SiteId": $("#SiteId").val(),
+            "AsyNmbr": $("#AsyNmbr").val(),
+            "AsyRev": $("#AsyRev").val(),
+            "AsyDesc": $("#AsyDesc").val(),
+            "CustPrefix": $("#CustPrefix").val(),
+            "BuildType": $("#BuildType").val(),
+            "CleanType": $("#CleanType").val(),
+            "UnitType": $("#UnitType").val(),
+            "Leadfree": $("#Leadfree").val(),
+            "Status": $('#Status').val(),
+            "CustAsyNmbr": $('#CustAsyNmbr').val(),
+            "CustAsyRev": $('#CustAsyRev').val(),
+            "CustAsyDesc": $('#CustAsyDesc').val(),
+            "CompTop": $('#CompTop').val(),
+            "CompBot": $('#CompBot').val(),
+            "ThComp": $('#ThComp').val(),
+            "SldrTop": $('#SldrTop').val(),
+            "SldrBot": $('#SldrBot').val(),
+            "ThPins": $('#ThPins').val(),
+            "AsyCmnts": $('#AsyCmnts').val(),
+            "PcbaNmbr": $('#PcbaNmbr').val(),
+            "PcbaRev": $('#PcbaRev').val(),
+            "PcbaDesc": $('#PcbaDesc').val(),
+            "SldrHeightTopUpper": $('#SldrHeightTopUpper').val(),
+            "SldrHeightTopLower": $('#SldrHeightTopLower').val(),
+            "SldrHeightBotUpper": $('#SldrHeightBotUpper').val(),
+            "SldrHeightBotLower": $('#SldrHeightBotLower').val(),
+            "IsPnlUnit": $('#IsPnlUnit').val(),
+            "IsItar": $('#IsItar').prop('checked'),
+            "IsFda": $('#IsFda').prop('checked'),
+            "IsAte": $('#IsAte').prop('checked'),
+            "UnitPrPnl": $('#UnitPrPnl').val(),
+            "AllowExtraItem": $('#AllowExtraItem').prop('checked'),
+            "StrictMrg": $('#StrictMrg').prop('checked'),
+            "PackCoc": $('#PackCoc').prop('checked'),
+            "AutoShip": $('#AutoShip').prop('checked'),
+            "ShipInstruction": $('#ShipInstruction').val(),
+            "lstSP" : _slderList
+        };
+
+        $.ajax(
+           {
+               type: "POST",
+               url: '@Url.Action("AsySave")',
+               data: JSON.stringify(passingData),
+               contentType: "application/json; charset-utf-8",
+               dataType: "json",
+               success: function (data) {
+                   $('#ErrorMsg  > .modal-body').empty();
+                   $('#modal-body').empty();
+                   $('#InfoMsg').empty();
+
+                   //IF MODEL HAS ERRORS OR VALIDATION MESSAGES
+                   if (data.isValid == false) {
+                       $('#modal-body').append(data.Message);
+                       $("#ErrorMsg").modal('show');
+                       return;
+                   }
+                   //AFTER MODELSTATE IS VALID
+                   $('#InfoMsg').append(data.Message);
+               },
+
+               error: function (data) {
+                   var errorMsg = '@Request.RequestContext.HttpContext.Session["ErrorMsg"]';
+                   $('#ErrorMsg > #modal-body').empty();
+                   $('#modal-body').append(errorMsg);
+                   $("#ErrorMsg").modal('show');
+
+               }
+           });
+    }
+
+
+    function ClearControls()
+    {
+        //$('#AsyNmbr').val(" ");
+        //$("#AsyRev").val(" ");
+        //$("#AsyDesc").val(" ");
+        //$("#CustPrefix").val(" ");
+        //$("#BuildType").val(" ");
+        //$("#CleanType").val(" ");
+        //$("#UnitType").val(" ");
+        //$("#Leadfree").val(" ");
+        //$('#Status').val(" ");
+        //$('#CustAsyNmbr').val(" ");
+        //$('#CustAsyRev').val(" ");
+        //$('#CustAsyDesc').val(" ");
+        //$('#CompTop').val(" ");
+        //$('#CompBot').val(" ");
+        //$('#ThComp').val(" ");
+        //$('#SldrTop').val(" ");
+        //$('#SldrBot').val(" ");
+        //$('#ThPins').val(" ");
+        //$('#AsyCmnts').val(" ");
+        //$('#PcbaNmbr').val(" ");;
+        //$('#PcbaRev').val(" ");
+        //$('#PcbaDesc').val(" ");
+        //$('#SldrHeightTopUpper').val(" ")
+        //$('#SldrHeightTopLower').val(" ")
+        //$('#SldrHeightBotUpper').val(" ")
+        //$('#SldrHeightBotLower').val(" ");
+        //$('#IsPnlUnit').val(" ");
+        //$('#IsItar').val(" ");
+        //$('#IsFda').val(" ");
+        //$('#IsAte').val(" ");
+        //$('#UnitPrPnl').val(" ");
+        //$('#AllowExtraItem').val(" ");
+        //$('#StrictMrg').val(" ");
+        //$('#PackCoc').val(" ");
+        //$('#AutoShip').val(" ");
+        //$('#ShipInstruction').val(" ");
+
+        window.location.href('~/BldAsy/AsySave');
+
+    }
+
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        var value = @Html.Raw(Json.Encode(@Model.SiteId));
+        if (value != null) {
+            BindCustomers(value)
+            $('#SiteId').prop('disabled', 'disabled');
+            $('#CustPrefix').prop('disabled', 'disabled');
+        }
+
+        var AsyNum = @Html.Raw(Json.Encode(@Model.AsyNmbr));
+        if (AsyNum!= null)
+        {
+            SetAsyNo(AsyNum)
+            $('#AsyNmbr').prop('disabled', 'disabled');
+            $('#AsyRev').prop('disabled', 'disabled');
+            $("#ErrorMsg").modal('close');
+            var lstSP = @Html.Raw(Json.Encode(Model.lstSP));
+            $.each(lstSP, function (i, row) {
+                var str = "";
+                str +="<tr>";
+                str += '<td width="85px">' + row.sldrPin +' </td>';
+                str += '<td style="display:none;">'+row.DMLType+'</td>';
+                str += "<td  width='15px'>";
+                str += "<a role='button' id='btnRemoveSolder' onclick='RemoveSolder(this)' class='btn btn-sm'>";
+                str += "<i  class='btn-icon-only fas fa-trash-alt' style='color:white;background-color:red;font-size: 20px;'></i>";
+                str += "</a>";
+                str += "</td>";
+                str +="</tr>";
+                $('#lstSP > tbody' ).append(str);
+
+            });
+        }
+    });
+
+    function Back() {
+        $.ajax({
+            url: '/BldAsy/AsyList',
+            success: function (data) {
+                $("#mainBody").empty();
+                $("#mainBody").html(data);
+            }
+        });
+    }
+
+    $(document).on('click', '.browse', function () {
+        var file = $(this).parent().parent().parent().find('.file');
+        file.trigger('click');
+    });
+    $(document).on('change', '.file', function () {
+        $(this).parent().find('.form-control').val($(this).val().replace(/C:\\fakepath\\/i, ''));
+    });
+</script>
+
+<!--Geneology Script-->
+<script type="text/javascript">
+
+    function DisableControlls()
+    {
+        //----DISABLE BUTTONS---//
+        $('#btnReset').prop('disabled', 'disabled');
+        //  $('#btnSaveLine').prop('disabled', 'disabled');
+        $('#btnSaveChanges').prop('disabled', 'disabled');
+
+        //-- DISABLE OTHER CONTROLLS---//
+        $('#LineNmbr').prop('disabled', 'disabled');
+        $('#IsRqd').prop('disabled', 'disabled');
+        $('#IsUnique').prop('disabled', 'disabled');
+        $('#txtSubAsy').prop('disabled', 'disabled');
+        $('#SubAsy').prop('disabled', 'disabled');
+        $('#MrgType').prop('disabled', 'disabled');
+        $('#txtDesc').prop('disabled', 'disabled');
+        $('#chkRevs').prop('disabled', 'disabled');
+        $('#txtSubRev').prop('disabled', 'disabled');
+    }
+
+    function EnableControlls()
+    {
+        //----ENABLE BUTTONS---//
+        $('#btnReset').prop('disabled', false);
+        // $('#btnSaveLine').prop('disabled', false);
+        $('#btnAddLine').prop('disabled', false);
+        $('#btnSaveChanges').prop('disabled', false);
+
+        //-- ENABLE OTHER CONTROLLS---//
+        $('#LineNmbr').prop('disabled', false);
+        $('#IsRqd').prop('disabled', false);
+        $('#IsUnique').prop('disabled', false);
+        $('#txtSubAsy').prop('disabled', false);
+        $('#SubAsy').prop('disabled', false);
+        $('#MrgType').prop('disabled', false);
+        $('#txtDesc').prop('disabled', false);
+        $('#chkRevs').prop('disabled', false);
+        $('#txtSubRev').prop('disabled', false);
+    }
+
+    function GetAsyGen()
+    {
+        DisableControlls();
+
+        var asyId = $("#AsyId").val();
+        $.ajax({
+
+            type: 'GET',
+            url: '@Url.Action("GetGenList")',
+            datatype : JSON,
+            data: {
+
+                asyId : asyId
+            },
+            success: function(data) {
+                $('#GenLst > #tblGenBody').empty();
+                $('#abc').prop("disabled", true);
+                $('#ErrorMsg  > .modal-body').empty();
+                $('#modal-body').empty();
+                $('#InfoMsg').empty();
+
+                //IF MODEL HAS ERRORS OR VALIDATION MESSAGES
+                if (data.isValid == false) {
+                    $('#modal-body').append(data.Message);
+                    $("#ErrorMsg").modal('show');
+                    return;
+                }
+                $('#GenLst > tbody').append("");
+                $.each(data.GenList, function(i, row){
+
+                    var str = "";
+                    str = '<tr>';
+                    str += '<td style="display:none;">' + row.AsyId + '</td>';
+                    str += '<td style="display:none;">' + row.AsyNmbr + '</td>';
+                    str += '<td style="display:none;">' + row.AsyRev + '</td>';
+                    str += '<td style="display:none;">' + row.SiteId + '</td>';
+                    str += '<td style="display:none;">' + row.SiteCode + '</td>';
+                    str += '<td style="display:none;">' + row.CustPrefix + '</td>';
+                    str += '<td>' + row.LineNmbr + '</td>';
+                    str += '<td>' + row.SubAsyRqd + '</td>';
+                    str += '<td>' + row.SubRevRqd + '</td>';
+                    str += '<td>' + row.SubDesc + '</td>';
+                    str += '<td>' + row.IsRqd + '</td>';
+                    str += '<td>' + row.IsUnique + '</td>';
+                    str += '<td>' + row.IsInternal + '</td>';
+                    str += '<td>' + row.MrgType + '</td>';
+                    str += '<td style="display:none;">' + row.DMLType + '</td>';
+                    str +='<td class="td-actions text-xl-center" id="abc">';
+                    str += '<a class="btn btn-sm" onclick="EditAsyGenRow(this)" id="tableOptions">';
+                    str += '<i class="btn-icon-only fas fa-pencil-alt" style="color:white;"> </i>';
+                    str +='</a>' ;
+                    //str+= '</td>';
+                    //str +='<td class="td-actions text-xl-center">';
+                    str += '<a class="btn btn-sm" onclick="RemoveAsyGenRow()" id="tableOptions">';
+                    str += '<i class="btn-icon-only fas fa-trash-alt" style="color:white;"> </i>';
+                    str +='</a>';
+                    str += '</td>';
+                    str += '</tr>';
+                    $('#GenLst > tbody').append(str);
+
+                });
+            },
+            error: function(data){
+                var errorMsg = '@Request.RequestContext.HttpContext.Session["ErrorMsg"]';
+                $('#ErrorMsg > #modal-body').empty();
+                $('#modal-body').append(errorMsg);
+                $("#ErrorMsg").modal('show');
+            }
+        });
+    }
+
+    //EDIT ASY GEN RECORDS ROW WISE
+    function EditAsyGenRow(row)
+    {
+        var currentRow = $(row).closest("tr");
+        var lineNmbr= currentRow.find('td').eq($('#GenLst #cLineNmbr').index()).text();
+        var subAsyRqd = currentRow.find('td').eq($('#GenLst #cSubAsyRqd').index()).text();
+        var subRevRqd = currentRow.find('td').eq($('#GenLst #cSubRevRqd').index()).text();
+        var subDesc = currentRow.find('td').eq($('#GenLst #cSubDesc').index()).text();
+        var isRqd = currentRow.find('td').eq($('#GenLst #cIsRqd').index()).text();
+        var isUnique =  currentRow.find('td').eq($('#GenLst #cIsUnique').index()).text();
+        var isInternal = currentRow.find('td').eq($('#GenLst #cIsInternal').index()).text();
+        var mrgType = currentRow.find('td').eq($('#GenLst #cMrgType').index()).text();
+
+        $('#LineNmbr').val(lineNmbr).prop('disabled', 'disabled');
+        $('#IsRqd').val(isRqd);
+        $('#IsUnique').val(isUnique);
+        $('#txtSubAsy').val(subAsyRqd);
+        $('#SubAsy').val(subAsyRqd);
+        $('#MrgType').val(mrgType);
+    }
+
+    function GetSubAsy(value)
+    {
+        $('#txtSubAsy').val(value);
+
+    }
+
+    function GetSubAsyRev()
+    {
+        var asyId = $('#AsyId').val();
+
+        $.ajax({
+
+            type: 'GET',
+            url: '@Url.Action("GetAsySubRevs")',
+            datatype : JSON,
+            data: {
+                asyId : asyId,
+            },
+            success: function(data) {
+                $('#lstSubRev > #lstSubRevBody').empty();
+                $('#ErrorMsg  > .modal-body').empty();
+                $('#modal-body').empty();
+                $('#InfoMsg').empty();
+
+                //IF MODEL HAS ERRORS OR VALIDATION MESSAGES
+                if (data.isValid == false) {
+                    $('#modal-body').append(data.Message);
+                    $("#ErrorMsg").modal('show');
+                    return;
+                }
+                if(data.RevLst != "")
+                { 
+                    $.each(data.RevLst, function(i, row){
+
+                        var str = "";
+                        str = '<tr>';
+                        str += '<td style="display:none;">' + row.AsyNmbr + '</td>';
+                        str += '<td style="display:none;">' + row.AsyDesc + '</td>';
+                        str +='<td>';
+                        str +='<input type="checkbox" id="IsChecked" />';
+                        str +='</td>';
+                        str += '<td>' + row.AsyRev + '</td>';
+                        str += '</tr>';
+                        $('#lstSubRev > tbody').append(str);
+
+                    });
+                }
+                else
+                {   alert('test');
+                    var str = "";
+                     str='<div class="col-9">';
+                     str+='<textarea class="form-control" type="text" placeholder="" id="txtSubRev" rows="4"></textarea>';
+                     str+='<div>'
+                     $('#lstSubRev > tbody').append(str);
+                }
+            },
+            error: function(data){
+                var errorMsg = '@Request.RequestContext.HttpContext.Session["ErrorMsg"]';
+                $('#ErrorMsg > #modal-body').empty();
+                $('#modal-body').append(errorMsg);
+                $("#ErrorMsg").modal('show');
+            }
+
+        });
+    }
+
+</script>

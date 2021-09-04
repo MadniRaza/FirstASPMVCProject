@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Octane Manufacturing App</title>
+
+    @Styles.Render("~/Content/css")
+    <!-- Javascripts -->
+    @Scripts.Render("~/Scripts")
+
+</head>
+<body>
+    @Html.Partial("_Header")
+    @Html.Partial("_MainMenu")
+    <div class="container-fluid">
+        <!-- Left Side Bar for Menus -->
+        <div id="mainBody" class="h-100">
+            @RenderBody()
+        </div>
+    </div>
+
+    @*@Html.Partial("_Dashboard2")*@
+    <!-- Footer -->
+    <footer>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12 mb-12 bg-gradient-x-grey-blue">
+                    @*<a style="float:left;" href="#dashboard2" role="button" class="nav-link nav-menu-main menu-toggle hidden-xs" id="dashboard2"><i class="fas fa-window-maximize bg-dark"></i></a>*@
+                    <p class="m-2 text-center text-white">Copyright &copy; Octane 2018</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
+<script type="text/javascript">
+    //$("#btnToggle").click(function (e) {
+    //    e.preventDefault();
+    //    $("body").toggleClass("toggled");
+    //});
+
+    $("#menu-toggle").click(function (e) {
+        e.preventDefault();
+        $("body").toggleClass("toggled");
+    });
+
+    //hide main menu if clicked outside the menu
+    $(document).ready(function () {
+        $("#mainBody").mouseup(function () {
+            CloseMainMenu();
+        });
+    });
+</script>

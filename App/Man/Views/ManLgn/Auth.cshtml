@@ -1,0 +1,172 @@
+﻿@model OctaneApp.App.Man.Models.ManLgnModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Octane Manufacturing App</title>
+    @Styles.Render("~/Content/css")
+    <!-- Javascripts -->
+    @Scripts.Render("~/Scripts")
+</head>
+<body>
+    <div class="container">
+        <div class="row loginTop h-100">
+            <div class="col-12">
+                <div id="loginSection">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-4 mx-auto">
+                                <!-- form card login -->
+                                <div class="card rounded-0">
+                                    <div class="card-header bg-gradient-x-grey-blue">
+                                        <h3 class="mb-0" style="color:white; text-align:center;">OCTANE</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <form class="form">
+                                            <div class="form-body">
+                                                <div class="form-group row">
+                                                    <div class="col-12">
+                                                        <div class="form-group">
+                                                            <div id="InfoMsg">
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <div class="col-12">
+                                                        <div class="form-group">
+                                                            @Html.TextBoxFor(model => model.EmpID, htmlAttributes: new { @class = "form-control", @placeholder = "Emp Id" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <div class="col-12">
+                                                        <div class="form-group">
+                                                            @Html.TextBoxFor(model => model.BadgePin, htmlAttributes: new { @class = "form-control", @placeholder = "Pin / Password" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <div class="col-12">
+                                                        <div class="form-group">
+                                                            <button type="button" id="btnLogin" class="btn btn-block" onclick="Authenticate()">
+                                                                Sign in
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="text-center">
+
+                                            <div class="form-check form-check-inline">
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input" checked="checked" type="radio" name="rdoBtnCType" id="rdoBtnCType" value="Live"> Live
+                                                </label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input" type="radio" name="rdoBtnCType" id="rdoBtnCType" value="Demo"> Demo
+                                                </label>
+                                            </div>
+                                            <div class="form-check form-check-inline disabled">
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input" type="radio" name="rdoBtnCType" id="rdoBtnCType" value="Train"> Train
+                                                </label>
+                                            </div>
+                                        </div>
+                                       
+                                    </div>
+                                    <!--/card-block-->
+                                </div>
+                                <!-- /form card login -->
+                            </div>
+                        </div>
+                        <!--/col-->
+                    </div>
+                    <!--/row-->
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="ErrorMsg">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Following error(s) occured:</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body" id="modal-body">
+
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+   
+    <script type="text/javascript">
+
+        function Authenticate() {
+            var pdata = {
+                "EmpID": $("#EmpID").val(),
+                "BadgePin": $("#BadgePin").val(),
+                "CSType": $("input[name=rdoBtnCType]:checked").val()
+            };
+
+            $.ajax(
+             {
+                 type: "POST",
+                 url: '@Url.Action("Authenticate")', // Controller/View
+                 data: JSON.stringify(pdata),
+                 contentType: "application/json; charset=utf-8",
+                 dataType: "json",
+                 success: function (data) {
+                     $('#ErrorMsg  > .modal-body').empty();
+                     $('#InfoMsg').empty();
+
+                     //IF MODEL HAS ERRORS OR VALIDATION MESSAGES
+                     if (data.IsValid == false) {
+                         $('#modal-body').append(data.Message);
+                         $("#ErrorMsg").modal('show');
+                         return;
+                     }
+
+                     //AFTER MODELSTATE IS VALID
+                     $('#InfoMsg').append(data.Message);
+
+                     window.location = "/ManLgn/InitDashboard";
+
+                 },
+                 error: function (data) {
+                     var errorMsg = '@Request.RequestContext.HttpContext.Session["ErrorMsg"]';
+                     $('#ErrorMsg > #modal-body').empty();
+                     $('#modal-body').append(errorMsg);
+                     $("#ErrorMsg").modal('show');
+                 }
+             });
+        }
+
+
+    </script>
+</body>
+</html>

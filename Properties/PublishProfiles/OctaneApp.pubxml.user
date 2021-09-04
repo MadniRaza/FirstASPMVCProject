@@ -1,0 +1,229 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit http://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <_PublishTargetUrl>E:\WebSite</_PublishTargetUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="App/Adm/Views/AdmPplUpd/PplUpdList.cshtml">
+      <publishTime>04/27/2018 10:58:55</publishTime>
+    </File>
+    <File Include="App/Adm/Views/AdmPplUpd/PplUpdSave.cshtml">
+      <publishTime>04/26/2018 15:16:49</publishTime>
+    </File>
+    <File Include="App/Adm/Views/AdmPplUpd/Test.cshtml">
+      <publishTime>04/26/2018 17:32:36</publishTime>
+    </File>
+    <File Include="App/Bld/Views/BldAsy/AsyList.cshtml">
+      <publishTime>04/27/2018 09:22:06</publishTime>
+    </File>
+    <File Include="App/Bld/Views/BldAsy/AsySave.cshtml">
+      <publishTime>04/27/2018 09:22:06</publishTime>
+    </File>
+    <File Include="App/Man/Views/ManDshBrd/Home.cshtml">
+      <publishTime>04/03/2018 17:47:15</publishTime>
+    </File>
+    <File Include="App/Man/Views/ManDshBrd/Index.cshtml">
+      <publishTime>04/10/2018 09:45:54</publishTime>
+    </File>
+    <File Include="App/Man/Views/ManLgn/Auth.cshtml">
+      <publishTime>04/26/2018 11:19:37</publishTime>
+    </File>
+    <File Include="App/Man/Views/ManLgn/Login.cshtml">
+      <publishTime>04/10/2018 09:26:05</publishTime>
+    </File>
+    <File Include="App/Shared/Views/Error.cshtml">
+      <publishTime>04/03/2018 15:28:34</publishTime>
+    </File>
+    <File Include="App/Shared/Views/_Header.cshtml">
+      <publishTime>04/09/2018 15:38:34</publishTime>
+    </File>
+    <File Include="App/Shared/Views/_Layout.cshtml">
+      <publishTime>04/27/2018 09:23:16</publishTime>
+    </File>
+    <File Include="App/Shared/Views/_MainMenu.cshtml">
+      <publishTime>04/27/2018 09:25:05</publishTime>
+    </File>
+    <File Include="bin/Antlr3.Runtime.dll">
+      <publishTime>03/26/2018 14:20:47</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Web.Infrastructure.dll">
+      <publishTime>03/26/2018 14:20:46</publishTime>
+    </File>
+    <File Include="bin/Newtonsoft.Json.dll">
+      <publishTime>03/26/2018 14:20:46</publishTime>
+    </File>
+    <File Include="bin/OctaneApp.dll">
+      <publishTime>04/27/2018 11:02:07</publishTime>
+    </File>
+    <File Include="bin/System.Web.Helpers.dll">
+      <publishTime>03/26/2018 14:20:45</publishTime>
+    </File>
+    <File Include="bin/System.Web.Mvc.dll">
+      <publishTime>03/26/2018 14:20:46</publishTime>
+    </File>
+    <File Include="bin/System.Web.Optimization.dll">
+      <publishTime>03/26/2018 14:20:45</publishTime>
+    </File>
+    <File Include="bin/System.Web.Razor.dll">
+      <publishTime>03/26/2018 14:20:45</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Deployment.dll">
+      <publishTime>03/26/2018 14:20:45</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.dll">
+      <publishTime>03/26/2018 14:20:45</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Razor.dll">
+      <publishTime>03/26/2018 14:20:46</publishTime>
+    </File>
+    <File Include="bin/WebGrease.dll">
+      <publishTime>03/26/2018 14:20:47</publishTime>
+    </File>
+    <File Include="Content/css/bootstrap-grid.css">
+      <publishTime>03/20/2018 12:13:19</publishTime>
+    </File>
+    <File Include="Content/css/bootstrap-grid.css.map">
+      <publishTime>03/20/2018 12:13:19</publishTime>
+    </File>
+    <File Include="Content/css/bootstrap-reboot.css">
+      <publishTime>03/20/2018 12:13:19</publishTime>
+    </File>
+    <File Include="Content/css/bootstrap-reboot.css.map">
+      <publishTime>03/20/2018 12:13:19</publishTime>
+    </File>
+    <File Include="Content/css/bootstrap.css">
+      <publishTime>04/26/2018 14:12:37</publishTime>
+    </File>
+    <File Include="Content/css/bootstrap.css.map">
+      <publishTime>03/20/2018 12:13:19</publishTime>
+    </File>
+    <File Include="Content/css/fontawesome-all.css">
+      <publishTime>03/29/2018 15:10:47</publishTime>
+    </File>
+    <File Include="Content/css/fontawesome.css">
+      <publishTime>03/29/2018 15:10:47</publishTime>
+    </File>
+    <File Include="Content/css/jquery.dataTables.min.css">
+      <publishTime>04/06/2018 16:50:41</publishTime>
+    </File>
+    <File Include="Content/css/layout.css">
+      <publishTime>04/26/2018 16:10:17</publishTime>
+    </File>
+    <File Include="Content/css/palette-gradient.css">
+      <publishTime>12/08/2017 23:44:30</publishTime>
+    </File>
+    <File Include="Content/img/bg-pattern.svg">
+      <publishTime>03/26/2018 10:50:01</publishTime>
+    </File>
+    <File Include="Content/img/body-bg.png">
+      <publishTime>02/22/2018 09:31:36</publishTime>
+    </File>
+    <File Include="Content/img/check.png">
+      <publishTime>03/20/2018 16:39:10</publishTime>
+    </File>
+    <File Include="Content/img/password.png">
+      <publishTime>03/20/2018 16:39:10</publishTime>
+    </File>
+    <File Include="Content/img/user.png">
+      <publishTime>03/20/2018 16:39:10</publishTime>
+    </File>
+    <File Include="Content/img/userdp.jpg">
+      <publishTime>04/04/2018 16:38:38</publishTime>
+    </File>
+    <File Include="Content/webfonts/fa-brands-400.eot">
+      <publishTime>03/29/2018 15:10:47</publishTime>
+    </File>
+    <File Include="Content/webfonts/fa-brands-400.svg">
+      <publishTime>03/29/2018 15:10:47</publishTime>
+    </File>
+    <File Include="Content/webfonts/fa-brands-400.ttf">
+      <publishTime>03/29/2018 15:10:47</publishTime>
+    </File>
+    <File Include="Content/webfonts/fa-brands-400.woff">
+      <publishTime>03/29/2018 15:10:47</publishTime>
+    </File>
+    <File Include="Content/webfonts/fa-brands-400.woff2">
+      <publishTime>03/29/2018 15:10:47</publishTime>
+    </File>
+    <File Include="Content/webfonts/fa-regular-400.eot">
+      <publishTime>03/29/2018 15:10:47</publishTime>
+    </File>
+    <File Include="Content/webfonts/fa-regular-400.svg">
+      <publishTime>03/29/2018 15:10:47</publishTime>
+    </File>
+    <File Include="Content/webfonts/fa-regular-400.ttf">
+      <publishTime>03/29/2018 15:10:47</publishTime>
+    </File>
+    <File Include="Content/webfonts/fa-regular-400.woff">
+      <publishTime>03/29/2018 15:10:47</publishTime>
+    </File>
+    <File Include="Content/webfonts/fa-regular-400.woff2">
+      <publishTime>03/29/2018 15:10:47</publishTime>
+    </File>
+    <File Include="Content/webfonts/fa-solid-900.eot">
+      <publishTime>03/29/2018 15:10:47</publishTime>
+    </File>
+    <File Include="Content/webfonts/fa-solid-900.svg">
+      <publishTime>03/29/2018 15:10:47</publishTime>
+    </File>
+    <File Include="Content/webfonts/fa-solid-900.ttf">
+      <publishTime>03/29/2018 15:10:47</publishTime>
+    </File>
+    <File Include="Content/webfonts/fa-solid-900.woff">
+      <publishTime>03/29/2018 15:10:47</publishTime>
+    </File>
+    <File Include="Content/webfonts/fa-solid-900.woff2">
+      <publishTime>03/29/2018 15:10:47</publishTime>
+    </File>
+    <File Include="favicon.ico">
+      <publishTime>03/26/2018 14:20:41</publishTime>
+    </File>
+    <File Include="Global.asax">
+      <publishTime>03/26/2018 14:20:41</publishTime>
+    </File>
+    <File Include="packages.config">
+      <publishTime>03/26/2018 14:20:47</publishTime>
+    </File>
+    <File Include="Scripts/bootstrap.bundle.js">
+      <publishTime>03/20/2018 12:13:19</publishTime>
+    </File>
+    <File Include="Scripts/bootstrap.bundle.js.map">
+      <publishTime>03/20/2018 12:13:19</publishTime>
+    </File>
+    <File Include="Scripts/bootstrap.js">
+      <publishTime>03/20/2018 12:13:19</publishTime>
+    </File>
+    <File Include="Scripts/bootstrap.js.map">
+      <publishTime>03/20/2018 12:13:19</publishTime>
+    </File>
+    <File Include="Scripts/CommonFunction.js">
+      <publishTime>04/09/2018 11:37:16</publishTime>
+    </File>
+    <File Include="Scripts/jquery-3.3.1.js">
+      <publishTime>03/21/2018 14:12:31</publishTime>
+    </File>
+    <File Include="Scripts/jquery-3.3.1.slim.js">
+      <publishTime>03/21/2018 14:12:56</publishTime>
+    </File>
+    <File Include="Scripts/jquery.dataTables.js">
+      <publishTime>04/04/2018 17:03:55</publishTime>
+    </File>
+    <File Include="Scripts/jquery.dataTables.min.js">
+      <publishTime>04/06/2018 16:50:41</publishTime>
+    </File>
+    <File Include="Scripts/_references.js">
+      <publishTime>04/04/2018 17:03:55</publishTime>
+    </File>
+    <File Include="Web.config">
+      <publishTime>04/27/2018 11:02:07</publishTime>
+    </File>
+    <File Include="_ViewStart.cshtml">
+      <publishTime>04/03/2018 17:46:49</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

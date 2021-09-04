@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewBag.Title = "Home";
+    Layout = "~/App/Shared/Views/_Layout.cshtml";
+}
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.ajax({
+            url: '/ManDshBrd/Index',
+            success: function (data) {
+                $("#mainBody").html(data);
+            }
+        });
+    });
+   
+</script>
+
+
+

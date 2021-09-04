@@ -1,0 +1,408 @@
+﻿
+@import url("https://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css");
+
+body {
+    overflow-x: hidden;
+    /*background: url(../img/body-bg.png);*/
+    color: #838383;
+    /*font: 13px/1.7em '';*/
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+
+
+
+/*#region Login*/
+.loginTop {
+    margin-top: 180px;
+}
+
+
+#loginSection {
+    margin-top: 50px;
+     -moz-transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+
+  -moz-backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  
+  /* Enabling a smooth animated transition */
+  -moz-transition:0.8s;
+  -webkit-transition:0.8s;
+  transition:0.8s;
+}
+
+
+#btnLogin:focus {
+    border: none;
+    text-decoration: underline;
+    outline: 2px solid #000;
+}
+
+#btnLogin {
+    background-color: #1e88e5;
+    color: white;
+}
+
+/*#endregion Login*/
+
+/*#region Dashboard*/
+#mainBody {
+    width: 100%;
+    position: absolute;
+    padding-top: 10px;
+    margin-top: 10px;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+}
+
+/*#endregion Dashboard*/
+
+/*#region Menus*/
+#leftsidebar {
+    margin-top: 90px;
+    padding-left: 10px;
+    z-index: 1;
+    position: fixed;
+    width: 0;
+    height: 80%;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    -webkit-box-shadow: 1px 0px 20px rgba(0, 0, 0, 0.08);
+    box-shadow: 1px 0px 20px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    border-radius: 0px 25px 25px 0px;
+    background-image: linear-gradient(45deg, #404E67, #6F85AD);
+    background-repeat: repeat-x;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    visibility: hidden;
+}
+
+#sidebar {
+    height: 100%;
+    overflow-y: auto;
+    background-image: linear-gradient(45deg, #404E67, #6F85AD);
+    background-repeat: repeat-x;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    -webkit-box-shadow: 1px 0px 20px rgba(0, 0, 0, 0.08);
+    box-shadow: 1px 0px 20px rgba(0, 0, 0, 0.08);
+}
+
+#dashboardmenu {
+}
+
+body.toggled #leftsidebar {
+    width: 65%;
+    visibility: visible;
+}
+
+body.toggled #toggleOverlap {
+    margin-left: 65%;
+}
+
+#toggleOverlap {
+    /*z-index : 1051;*/
+    position: fixed;
+    top: 40%;
+    bottom: 0;
+    height: 100vh;
+    /*margin-top:30px;*/
+    background: transparent;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    -webkit-box-shadow: 1px 0px 20px rgba(0, 0, 0, 0.08);
+    box-shadow: 1px 0px 20px rgba(0, 0, 0, 0.08);
+}
+
+#btnToggle {
+    /*background-color: transparent;
+    background-image: url('../img/toggle_right.png');
+     background-repeat: repeat-x;*/
+    /*position: relative;*/
+    width: 54px;
+    height: 54px;
+    /*float: right;*/
+    text-align: center;
+    vertical-align: middle;
+    /*right:0px;*/
+    /*margin-right: -54px;*/
+    margin-left: -30px;
+    /* display: block; */
+    /*-webkit-box-shadow: -3px 0 8px rgba(0, 0, 0, 0.1);
+    box-shadow: -3px 0 8px rgba(0, 0, 0, 0.1);*/
+    background-image: linear-gradient(to right, #404E67 0%, #6F85AD 100%);
+    background-repeat: repeat-x;
+    cursor: pointer;
+    -moz-border-radius: 60px;
+    -webkit-border-radius: 60px;
+    /*border-radius: 50px;*/
+}
+
+#toggleIcon {
+    margin-top: 50px;
+    margin-right: 0px;
+    margin-left: 5px;
+    font-size: 50px;
+    text-align: center;
+    vertical-align: middle;
+    color: white;
+    display: block;
+}
+
+#dashboardmenu.h5 {
+    font-size: 5px;
+}
+
+.mesMnu:hover {
+    /*background: #;*/
+    /*background-image : linear-gradient(to right, #22C2DC 0%, #6CDDEB 100%);*/
+    background-color: #18648E;
+    cursor: pointer;
+}
+
+.mesMnu {
+    background-color: #005483;
+    font-weight: bold;
+}
+
+#menu-toggle {
+    color: white;
+}
+
+
+
+#sidebar .list-group-item {
+    border-radius: 0;
+    background-color: inherit;
+    border-left: 0;
+    border-right: 0;
+    /*border-color: #007bff;*/
+    white-space: nowrap;
+}
+
+    /* highlight active menu */
+    #sidebar .list-group-item:not(.collapsed) {
+        /*background-color: #222;*/
+    }
+
+#sidebar .list-group .list-group-item[aria-expanded="true"]::after {
+    font-family: fontawesome;
+    content: "\f0da";
+    display: inline;
+    text-align: right;
+    padding-left: 5px;
+}
+/* closed state */
+#sidebar .list-group .list-group-item[aria-expanded="false"]::after {
+    font-family: fontawesome;
+    content: "\f107";
+    display: inline;
+    text-align: right;
+    padding-left: 5px;
+}
+
+#sidebar .list-group-item:hover {
+    background-image: linear-gradient(to right, #455A64 0%, #90A4AE 100%);
+    background-repeat: repeat-x;
+    color: white;
+}
+
+#sidebar .list-group-item {
+    color: white; /*Fore COlor*/
+    font-weight: 500;
+    /*font-family: "Poppins", sans-serif;*/
+    font-size: 15px;
+    cursor: pointer;
+}
+
+#sidebar .list-inline-item {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+    color: white;
+    font-weight: bold;
+    font-family: "Poppins", sans-serif;
+}
+
+/* level 1*/
+#sidebar .list-group .collapse .list-group-item {
+    padding-left: 25px;
+}
+
+/* level 2*/
+#sidebar .list-group .collapse > .collapse .list-group-item {
+    padding-left: 30px;
+}
+
+/* level 3*/
+#sidebar .list-group .collapse > .collapse > .collapse .list-group-item {
+    padding-left: 40px;
+}
+
+@@media (max-width:48em) {
+    /* overlay sub levels on small screens */
+    #sidebar .list-group .collapse.in, #sidebar .list-group .collapsing {
+        position: absolute;
+        z-index: 1;
+        width: 190px;
+    }
+
+    #sidebar .list-group > .list-group-item {
+        text-align: center;
+        padding: .75rem .5rem;
+    }
+        /* hide caret icons of top level when collapsed */
+        #sidebar .list-group > .list-group-item[aria-expanded="true"]::after,
+        #sidebar .list-group > .list-group-item[aria-expanded="false"]::after {
+            display: none;
+        }
+}
+
+/* change transition animation to width when entire sidebar is toggled */
+#sidebar.collapse {
+    -webkit-transition-timing-function: ease;
+    -o-transition-timing-function: ease;
+    transition-timing-function: ease;
+    -webkit-transition-duration: .2s;
+    -o-transition-duration: .2s;
+    transition-duration: .2s;
+}
+
+#sidebar.collapsing {
+    opacity: 0.8;
+    width: 0;
+    -webkit-transition-timing-function: ease-in;
+    -o-transition-timing-function: ease-in;
+    transition-timing-function: ease-in;
+    -webkit-transition-property: width;
+    -o-transition-property: width;
+    transition-property: width;
+}
+
+
+
+
+
+
+/*#endregion Menus*/
+
+/*#region Footer*/
+
+footer {
+    -webkit-box-shadow: 1px 0px 20px rgba(0, 0, 0, 0.08);
+    box-shadow: 1px 0px 20px rgba(0, 0, 0, 0.08);
+    background-color: #f2f6f8;
+    background: transparent;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+
+/*#endregion Footer*/
+
+/*#region Controls*/
+
+form .form-section {
+    line-height: 3rem;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #404E67;
+}
+
+.card-header {
+    padding-bottom: 0px;
+}
+
+.card-body {
+    padding-top: 5px;
+}
+
+form .form-section {
+    margin-bottom: 8px;
+    line-height: 1.5rem;
+    /*font-weight: bold;*/
+}
+
+.form-group {
+    padding-top: 0px;
+    padding-bottom: 0px;
+    margin-bottom: 0.3rem;
+    margin-top: 0px;
+}
+
+.section {
+    border: solid #f7f7f9;
+    border-width: .2rem;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-top:5px;
+}
+
+.dropdown-item {
+    cursor: pointer;
+}
+
+.form-control, .input-group, .input-group-text, .input-group-prepend {
+    padding: 0.10rem 0.15rem;
+}
+
+
+select.form-control:not([size]):not([multiple]) {
+  height: 30px;
+}
+
+.input-group-text
+{
+    height:28px;
+
+}
+
+
+#tableHeader {
+    color: white;
+    background-color: #005483;
+}
+
+#tableOptions {
+    color: white;
+    background-color: #005483;
+}
+
+
+/*#endregion Forms*/
+
+
+
+
+body.preloader-site {
+    overflow: hidden;
+}
+
+.preloader-wrapper {
+    height: 100%;
+    width: 100%;
+    background: #FFF;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999999;
+}
+
+.preloader-wrapper .preloader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    width: 120px;
+}

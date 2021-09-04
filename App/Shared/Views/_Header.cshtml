@@ -1,0 +1,63 @@
+﻿
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark fixed-top bg-gradient-x-grey-blue" style="background-color: #1e88e5;">
+    <div class=" container-fluid">
+        <a href="#menu-toggle" role="button" class="nav-link nav-menu-main menu-toggle hidden-xs" id="menu-toggle"><i class="fas fa-bars"></i></a>
+        <a class="navbar-brand" href="#">OCTANE</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    @*<a class="nav-link" href="about.html">About</a>*@
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Agave
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
+                        <a class="dropdown-item" href="#">Karachi</a>
+                        <a class="dropdown-item" href="#">Mexicali</a>
+                        <a class="dropdown-item" href="#">Longmont</a>
+                        <a class="dropdown-item" href="#">San Jose</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i class="fas fa-user"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
+                        <a class="dropdown-item" onclick="InitPplUpd()">View Profile</a>
+                        <a class="dropdown-item" onclick="InitAuth()">Logout</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+</nav>
+<br />
+
+
+<script type="text/javascript">
+    function InitPplUpd() {
+        $.ajax({
+            url: '/AdmPplUpd/PplUpdSave',
+            success: function (data) {
+                CloseMainMenu();
+                $("#mainBody").empty();
+                $("#mainBody").html(data);
+            }
+        });
+
+      
+    }
+    function InitAuth() {
+        window.location.href = "/ManLgn/Auth";
+    }
+
+  
+</script>
+
+

@@ -1,0 +1,615 @@
+﻿@model OctaneApp.App.Adm.Models.AdmPplUpdModel
+@{
+    Layout = null;
+}
+
+
+
+<div class="row h-100">
+    <div class="col-lg-12">
+        <div class="card h-100">
+            <div class="card-header">
+                Employee List
+                <div class="float-right">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Filter" style="width:100px;">Filter</button>
+                    <button type="button" class="btn btn-primary" style="width:100px;" onclick="Create()">Create</button>
+
+                    <div class="modal fade" id="Filter">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Filter Options</h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <!-- Modal body -->
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group row">
+                                                @Html.LabelFor(model => model.filterSiteID, htmlAttributes: new { @class = "col-3 col-form-label" })
+                                                <div class="col-9">
+                                                    @Html.DropDownListFor(model => model.filterSiteID, Model.lstFilterSite, "All", htmlAttributes: new { @class = "form-control" })
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group row">
+                                                @Html.LabelFor(model => model.filterStatus, htmlAttributes: new { @class = "col-3 col-form-label" })
+                                                <div class="col-9">
+                                                    @Html.DropDownListFor(model => model.filterStatus,
+                                                            new List<SelectListItem>
+                                                        {
+                                                            new SelectListItem{ Text="All", Value = "All" },
+                                                            new SelectListItem{ Text="Active", Value = "Active" },
+                                                            new SelectListItem{ Text="Inactive", Value = "Inactive" }
+                                                         }, htmlAttributes: new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="FilterRecords()">Go</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="ErrorMsg">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Following error(s) occured:</h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+
+                                <!-- Modal body -->
+                                <div class="modal-body" id="modal-body">
+
+                                </div>
+
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="DeactivatePopup">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Deactivate?</h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <!-- Modal body -->
+                                <div class="modal-body" id="modal-body">
+                                    Employee ID:
+                                </div>
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-outline-success" data-dismiss="modal">No</button>
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="DeactivateEmployee()">Yes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="ReactivatePopup">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Reactivate?</h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <!-- Modal body -->
+                                <div class="modal-body" id="modal-body">
+                                    Employee ID:
+                                </div>
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-outline-success" data-dismiss="modal">No</button>
+                                    <button type="button" class="btn btn-success" data-dismiss="modal" onclick="ReactivateEmployee()">Yes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="card-body">
+                <div id="InfoMsg">
+                </div>
+
+                <div class="row h-40">
+                    <div class="col-12">
+                        <div class="list-group  w-100" style="overflow-y:scroll; height:400px;">
+                            <table id="lstEmployee" class="table table-hover table-bordered table-striped p-0 w-100" style="overflow-y:auto; overflow-x:hidden;">
+                                <thead id="tableHeader">
+                                    <tr>
+                                        <th id="cEmpId" style="display:none;">Employee ID</th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Phy. Site</th>
+                                        <th>Reports To</th>
+                                        <th>Type</th>
+                                        <th>Active</th>
+                                        <th id="cTermOn">Term. On</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tblBody"></tbody>
+                            </table>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row h-50">
+                    <div class="col-12">
+                        <div class="form">
+                            <div class="form-body">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <h6>Employee Information</h6>
+                                        <div class="row">
+
+                                            <div class="col-lg-6 mb-6">
+                                                <div class="section">
+                                                    <h4 class="form-section">About</h4>
+                                                    <div class="form-group row">
+                                                        <div class="col-12">
+                                                            <div class="text-center">
+                                                                <img class="rounded-circle" src="~/Content/img/userdp.jpg" alt="" height="180" width="110">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                @Html.TextBoxFor(model => model.EmpNameFirst, htmlAttributes: new { @class = "form-control" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                @Html.TextBoxFor(model => model.EmpNameMiddle, htmlAttributes: new { @class = "form-control" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                @Html.TextBoxFor(model => model.EmpNameLast, htmlAttributes: new { @class = "form-control" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="col-md-3">
+                                                            @Html.LabelFor(model => model.EmailAddress, htmlAttributes: new { @class = "form-label" })
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            @Html.TextBoxFor(model => model.EmailAddress, htmlAttributes: new { @class = "form-control" })
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 mb-6">
+                                                <div class="section">
+                                                    <h4 class="form-section">Contact</h4>
+                                                    <div class="form-group row">
+                                                        <div class="col-3">
+                                                            @Html.LabelFor(model => model.PhoneWork, htmlAttributes: new { @class = "form-label" })
+                                                        </div>
+                                                        <div class="col-9">
+                                                            @Html.TextBoxFor(model => model.PhoneWork, htmlAttributes: new { @class = "form-control" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="col-3">
+                                                            @Html.LabelFor(model => model.PhoneCell, htmlAttributes: new { @class = "form-label" })
+                                                        </div>
+                                                        <div class="col-9">
+                                                            @Html.TextBoxFor(model => model.PhoneCell, htmlAttributes: new { @class = "form-control" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="section">
+                                                    <h4 class="form-section">Hiring</h4>
+                                                    <div class="form-group row">
+                                                        <div class="col-3">
+                                                            @Html.LabelFor(model => model.EmpNmbr, htmlAttributes: new { @class = "form-label" })
+                                                        </div>
+                                                        <div class="col-3">
+                                                            @Html.TextBoxFor(model => model.EmpNmbr, htmlAttributes: new { @class = "form-control" })
+                                                        </div>
+                                                        <div class="col-3">
+                                                            @Html.LabelFor(model => model.Shift, htmlAttributes: new { @class = "form-label" })
+                                                        </div>
+                                                        <div class="col-3">
+                                                            @Html.TextBoxFor(model => model.Shift, htmlAttributes: new { @class = "form-control" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="col-3">
+                                                            @Html.LabelFor(model => model.PayType, htmlAttributes: new { @class = "form-label" })
+                                                        </div>
+                                                        <div class="col-3">
+                                                            @Html.TextBoxFor(model => model.PayType, htmlAttributes: new { @class = "form-control" })
+                                                        </div>
+                                                        <div class="col-3">
+                                                            @Html.LabelFor(model => model.WorkAs, htmlAttributes: new { @class = "form-label" })
+                                                        </div>
+                                                        <div class="col-3">
+                                                            @Html.TextBoxFor(model => model.WorkAs, htmlAttributes: new { @class = "form-control" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="col-3">
+                                                            @Html.LabelFor(model => model.HireOn, htmlAttributes: new { @class = "form-label" })
+                                                        </div>
+                                                        <div class="col-3">
+                                                            @Html.TextBoxFor(model => model.HireOn, htmlAttributes: new {  @class = "form-control" })
+                                                        </div>
+                                                        <div class="col-3">
+                                                            @Html.LabelFor(model => model.ContractOn, htmlAttributes: new { @class = "form-label" })
+                                                        </div>
+                                                        <div class="col-3">
+                                                            @Html.TextBoxFor(model => model.ContractOn, htmlAttributes: new {@class = "form-control" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="col-lg-4 mb-4">
+                                            </div>
+                                            <div class="col-lg-4 mb-4">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer fixed-bottom" style="margin-bottom:45px;">
+                <div class="float-right">
+                    <button type="button" class="btn btn-primary" id="btnEdit" onclick="EditEmployee()" style="width:100px;">
+                        Edit
+                    </button>
+                    <button type="button" class="btn btn-outline-primary mr-1" id="btnReactivate" data-toggle="modal" data-target="#ReactivatePopup" style="width:100px;">
+                        Reactivate
+                    </button>
+                    <button type="submit" class="btn btn-outline-primary mr-1" id="btnDeactivate" data-toggle="modal" data-target="#DeactivatePopup" style="width:100px;">
+                        Deactivate
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    @Html.HiddenFor(model => model.authEmpSiteIds)
+    @Html.HiddenFor(model => model.EmpId1)
+
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        //BIND EMPLOYEE RECORD(S)
+        var str;
+        var employees = @Html.Raw(Json.Encode(Model.lstEmployee));
+        $.each(employees, function (i, row) {
+            str = '<tr onclick="GetEmployeeInfoByID(this)">';
+            str += '<td style="display:none;">' + row.EmpId +' </td>';
+            str += '<td>' + row.EmpNameFirst +' </td>';
+            str += '<td>' + row.EmpNameLast +' </td>';
+            str += '<td>' + row.SiteName +' </td>';
+            str += '<td>' + row.ReportToEmpName +' </td>';
+            str += '<td>' + row.PayType +' </td>';
+            str += '<td>' + row.IsActive +' </td>';
+            str += '<td>' + row.TermOn +' </td>';
+            str += '</tr>';
+            $('#lstEmployee > tbody').append(str);
+        });
+
+
+        $('#btnEdit').prop("disabled",true);
+        $('#btnReactivate').prop("disabled",true);
+        $('#btnDeactivate').prop("disabled",true);
+
+
+        $('#lstEmployee').DataTable({
+            select: true,
+            "pagingType": "full_numbers",
+            "pageLength": 15
+        });
+    });
+
+
+    function Create() {
+        $.ajax({
+            url: '/AdmPplUpd/PplUpdSave',
+            success: function (data) {
+                CloseMainMenu();
+                $("#mainBody").empty();
+                $("#mainBody").html(data);
+            }
+        });
+    }
+
+
+
+
+    function GetEmployeeInfoByID(row)
+    {
+        var currentRow = $(row).closest("tr");
+        var employeeID = currentRow.find('td').eq($('#lstEmployee #cEmpId').index()).text();
+        var status = $("#filterStatus").val();
+
+        //RETAIN EMPLOYEE ID FOR EDIT, REACTIVATE, DEACTIVATE
+        $("#EmpId1").val(employeeID);
+
+        if( status == "All")
+        {
+            var termOn = currentRow.find('td').eq($('#lstEmployee #cTermOn').index()).text();
+            if(termOn.length == 0)
+            {
+                alert('a')
+                $('#btnReactivate').prop("disabled",true);
+                $('#btnDeactivate').prop("disabled",false);
+                $('#btnEdit').prop("disabled",false);
+            }
+            else
+            {
+                $('#btnEdit').prop("disabled",true);
+                $('#btnReactivate').prop("disabled",false);
+                $('#btnDeactivate').prop("disabled",true);
+            }
+        }
+        else if(status == "Active")
+        {
+            $('#btnReactivate').prop("disabled",true);
+            $('#btnDeactivate').prop("disabled",false);
+            $('#btnEdit').prop("disabled",false);
+        }
+        else if(status == "Inactive" )
+        {
+
+            $('#btnEdit').prop("disabled",true);
+            $('#btnReactivate').prop("disabled",false);
+            $('#btnDeactivate').prop("disabled",true);
+        }
+
+        var getThisProperties =
+            {
+                "EmpNameFirst" : "",
+                "EmpNameMiddle" : "",
+                "EmpNameLast" : "",
+                "EmailAddress" : "",
+                "PhoneWork" : "",
+                "PhoneCell" : "",
+                "EmpNmbr" : "",
+                "Shift" : "",
+                "PayType" : "",
+                "WorkAs" : "",
+                "HireOn" : "",
+                "ContractOn" : ""
+            };
+
+        $.ajax(
+         {
+             type: "GET",
+             url: '@Url.Action("GetEmployeeSummary")', // Controller/View
+             data:{
+                 "employeeID" : employeeID,
+                 "SetThisProperties": getThisProperties
+             },
+             contentType: "application/json; charset=utf-8",
+             success: function (data) {
+                 $('#ErrorMsg  > .modal-body').empty();
+                 $('#InfoMsg').empty();
+
+                 //IF MODEL HAS ERRORS OR VALIDATION MESSAGES
+                 if (data.IsValid == false) {
+                     $('#modal-body').append(data.Message);
+                     $("#ErrorMsg").modal('show');
+                     return;
+                 }
+
+                 //AFTER MODELSTATE IS VALID
+
+                 $.each(data.EmployeeSummary, function (Key, Value) {
+                     $('#'+Key).val(data.EmployeeSummary[Key]);
+                 });
+
+             },
+             error: function (data) {
+                 var errorMsg = '@Request.RequestContext.HttpContext.Session["ErrorMsg"]';
+                 $('#ErrorMsg > #modal-body').empty();
+                 $('#modal-body').append(errorMsg);
+                 $("#ErrorMsg").modal('show');
+             }
+         });
+
+
+
+
+    }
+    function FilterRecords()
+    {
+
+        $('#btnEdit').prop("disabled",true);
+        $('#btnReactivate').prop("disabled",true);
+        $('#btnDeactivate').prop("disabled",true);
+
+
+        var status = $("#filterStatus").val();
+        var siteID = $("#filterSiteID").val();
+        var allSites = $("#authEmpSiteIds").val();
+
+        $.ajax(
+          {
+              type: "GET",
+              url: '@Url.Action("GetEmployees")', // Controller/View
+              data:{
+                  "filterStatus" : status,
+                  "filterSiteID" : siteID,
+                  "authEmpSiteIds" :allSites
+              },
+              contentType: "application/json; charset=utf-8",
+              success: function (data) {
+                  $('#ErrorMsg  > .modal-body').empty();
+                  $('#InfoMsg').empty();
+
+                  //IF MODEL HAS ERRORS OR VALIDATION MESSAGES
+                  if (data.IsValid == false) {
+                      $('#modal-body').append(data.Message);
+                      $("#ErrorMsg").modal('show');
+                      return;
+                  }
+
+                  //AFTER MODELSTATE IS VALID
+                  $('#lstEmployee > tbody').empty();
+                  $.each(data.lstEmployee, function (i, row) {
+                      str = '<tr onclick="GetEmployeeInfoByID(this)">';
+                      str += '<td style="display:none;">' + row.EmpId +' </td>';
+                      str += '<td>' + row.EmpNameFirst +' </td>';
+                      str += '<td>' + row.EmpNameLast +' </td>';
+                      str += '<td>' + row.SiteName +' </td>';
+                      str += '<td>' + row.ReportToEmpName +' </td>';
+                      str += '<td>' + row.PayType +' </td>';
+                      str += '<td>' + row.IsActive +' </td>';
+                      if(row.TermOn == null)
+                      {
+                          str += '<td>  </td>';
+                      }
+                      else
+                      {
+                          str += '<td>' + row.TermOn +' </td>';
+                      }
+
+                      str += '</tr>';
+                      $('#lstEmployee > tbody').append(str);
+                  });
+
+              },
+              error: function (data) {
+                  var errorMsg = '@Request.RequestContext.HttpContext.Session["ErrorMsg"]';
+                  $('#ErrorMsg > #modal-body').empty();
+                  $('#modal-body').append(errorMsg);
+                  $("#ErrorMsg").modal('show');
+              }
+          });
+    }
+
+
+    function EditEmployee()
+    {
+        var employeeID = $("#EmpId1").val();
+        alert('clicked');
+        //$("#EmpId1").val()
+        $.ajax({
+            url: '/AdmPplUpd/PplUpdSave',
+            data:{
+                EmpID :   $("#EmpId1").val()
+            },
+            success: function (data) {
+                CloseMainMenu();
+                $("#mainBody").empty();
+                $("#mainBody").html(data);
+            }
+        });
+    }
+
+
+    function ReactivateEmployee()
+    {
+        var employeeID = $("#EmpId1").val();
+
+        $.ajax(
+         {
+             type: "GET",
+             url: '@Url.Action("ReactivateEmployee")', // Controller/View
+             data:{
+                 "EmpId1" : employeeID
+             },
+             contentType: "application/json; charset=utf-8",
+             success: function (data) {
+                 $('#ErrorMsg  > .modal-body').empty();
+                 $('#InfoMsg').empty();
+
+                 //IF MODEL HAS ERRORS OR VALIDATION MESSAGES
+                 if (data.IsValid == false) {
+                     $('#modal-body').append(data.Message);
+                     $("#ErrorMsg").modal('show');
+                     return;
+                 }
+
+                 //AFTER MODELSTATE IS VALID
+                 $('#InfoMsg').append(data.Message);
+                 FilterRecords();
+
+             },
+             error: function (data) {
+                 var errorMsg = '@Request.RequestContext.HttpContext.Session["ErrorMsg"]';
+                 $('#ErrorMsg > #modal-body').empty();
+                 $('#modal-body').append(errorMsg);
+                 $("#ErrorMsg").modal('show');
+             }
+         });
+    }
+    function DeactivateEmployee()
+    {
+        var employeeID = $("#EmpId1").val();
+
+        $.ajax(
+          {
+              type: "GET",
+              url: '@Url.Action("DeactivateEmployee")', // Controller/View
+              data:{
+                  "EmpId1" : employeeID
+              },
+              contentType: "application/json; charset=utf-8",
+              success: function (data) {
+                  $('#ErrorMsg  > .modal-body').empty();
+                  $('#InfoMsg').empty();
+
+                  //IF MODEL HAS ERRORS OR VALIDATION MESSAGES
+                  if (data.IsValid == false) {
+                      $('#modal-body').append(data.Message);
+                      $("#ErrorMsg").modal('show');
+                      return;
+                  }
+
+                  //AFTER MODELSTATE IS VALID
+                  $('#InfoMsg').append(data.Message);
+                  FilterRecords();
+
+              },
+              error: function (data) {
+                  var errorMsg = '@Request.RequestContext.HttpContext.Session["ErrorMsg"]';
+                  $('#ErrorMsg > #modal-body').empty();
+                  $('#modal-body').append(errorMsg);
+                  $("#ErrorMsg").modal('show');
+              }
+          });
+
+
+    }
+
+
+</script>

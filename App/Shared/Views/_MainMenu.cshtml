@@ -1,0 +1,306 @@
+﻿<script type="text/javascript">
+
+
+    function InitAssembly() {
+        $.ajax({
+            url: '/BldAsy/AsyList',
+            success: function (data) {
+                CloseMainMenu();
+                $("#mainBody").empty();
+                $("#mainBody").html(data);
+            }
+        });
+    }
+    function InitDashboard() {
+        $.ajax({
+            url: '/ManDshBrd/Index',
+            success: function (data) {
+                CloseMainMenu();
+                $("#mainBody").empty();
+                $("#mainBody").html(data);
+            }
+        });
+    }
+
+    function InitPeopleUpdate() {
+        $.ajax({
+            url: '/AdmPplUpd/PplUpdList',
+            success: function (data) {
+                CloseMainMenu();
+                $("#mainBody").empty();
+                $("#mainBody").html(data);
+            }
+        });
+    }
+
+
+    function InitTestInspection() {
+        alert('called')
+        $.ajax({
+            url: '/RtrInsp/Inspection2',
+            success: function (data) {
+                CloseMainMenu();
+                $("#mainBody").empty();
+                $("#mainBody").html(data);
+            }
+        });
+    }
+
+    function InitProcessStep() {
+        $.ajax({
+            url: '/RtrPrcStep/ProcessStep',
+            success: function (data) {
+                CloseMainMenu();
+                $("#mainBody").empty();
+                $("#mainBody").html(data);
+            }
+        });
+    }
+
+</script>
+
+<div id="leftsidebar">
+    <div class="h-100 row">
+        <div id="sidebar" class="col-sm-3">
+            <div class="list-group panel">
+                <a class="list-inline-item text-md-left">Main Menu</a>
+                <a onclick="InitDashboard()" class="list-group-item collapsed" data-toggle="collapse" data-parent="#sidebar"><i class="fas fa-tachometer-alt mr-2"></i>Dashboard</a>
+                <a href="#submnuManage" class="list-group-item collapsed" data-toggle="collapse" data-parent="#sidebar" aria-expanded="false"><i class="fas fa-users mr-2"></i>Manage</a>
+                <div class="collapse" id="submnuManage">
+                    <a onclick="InitPeopleUpdate()" class="list-group-item collapsed" data-parent="#sidebar" data-toggle="collapse"> <span class="hidden-sm-down"><i class="fas fa-angle-double-right mr-2"></i>People Update</span></a>
+                </div>
+                <a href="#" class="list-group-item collapsed" data-toggle="collapse" data-parent="#sidebar"><i class="fas fa-graduation-cap mr-2"></i>University</a>
+                <a href="#" class="list-group-item collapsed" data-toggle="collapse" data-parent="#sidebar"><i class="fas fa-box mr-2"></i>Kitting</a>
+                <a href="#submnuBuild" class="list-group-item collapsed" data-toggle="collapse" data-parent="#sidebar" aria-expanded="false"><i class="fas fa-cogs mr-2"></i>Build</a>
+                <div class="collapse" id="submnuBuild">
+                    <a class="list-group-item collapsed" data-parent="#sidebar" data-toggle="collapse" onclick="InitAssembly()"> <span class="hidden-sm-down"><i class="fas fa-angle-double-right mr-2"></i>Assembly</span></a>
+                    <a href="#" class="list-group-item collapsed" data-toggle="collapse" data-parent="#sidebar" aria-expanded="false"><i class="fas fa-angle-double-right mr-2"></i>Job</a>
+                </div>
+
+                <a class="list-inline-item">Other Menus</a>
+                <a href="#menu1" class="list-group-item collapsed" data-toggle="collapse" data-parent="#sidebar" aria-expanded="false"><i class="fas fa-ellipsis-h mr-2"></i>More</a>
+                <div class="collapse" id="menu1">
+                    <a href="#" class="list-group-item collapsed" data-parent="#sidebar"> <span class="hidden-sm-down"><i class="fas fa-angle-double-right mr-2"></i>Admin Task</span></a>
+                    <a href="#submenu1" class="list-group-item collapsed" data-toggle="collapse" data-parent="#sidebar" aria-expanded="false"><i class="fas fa-angle-double-right mr-2"></i>Material Transfer</a>
+                    <div class="collapse" id="submenu1">
+                        <a href="#" class="list-group-item collapsed" data-parent="#sidebar"> <span class="hidden-sm-down"><i class="fas fa-angle-right mr-2"></i>P1</span></a>
+                        <a href="#" class="list-group-item collapsed" data-parent="#sidebar"> <span class="hidden-sm-down"><i class="fas fa-angle-right mr-2"></i>p2</span></a>
+                        <a href="#" class="list-group-item collapsed" data-parent="#sidebar"> <span class="hidden-sm-down"><i class="fas fa-angle-right mr-2"></i>P3</span></a>
+                        <a href="#" class="list-group-item collapsed" data-parent="#sidebar"> <span class="hidden-sm-down"><i class="fas fa-angle-right mr-2"></i>p4</span></a>
+                    </div>
+                </div>
+                <a href="#menu2" class="list-group-item collapsed" data-toggle="collapse" data-parent="#sidebar"><i class="fas fa-bars mr-2"></i>My Preferences</a>
+            </div>
+        </div>
+        <div id="dashboardmenu" class="col-sm-9 text-white text-center">
+            <div class="row">
+                <div class="col-xl-2 col-lg-6 p-1">
+
+                    <div class="media align-items-stretch ">
+                        <div class="p-2 text-center media-body mesMnu">
+                            <i class="fas fa-microchip" style="font-size: 32px;"></i>
+                            <h5>SMT</h5>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-4 col-lg-6 p-1">
+                    <div class="media align-items-stretch">
+                        <div class="p-2 text-center media-body mesMnu" onclick="InitTestInspection()">
+                            <i class="fas fa-diagnoses" style="font-size: 32px;"></i>
+                            <h5 >Test/Inspection</h5>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-6 col-lg-6 p-1">
+                    <div class="media align-items-stretch">
+                        <div class="p-2 text-center media-body mesMnu">
+                            <i class="fas fa-sitemap" style="font-size: 32px;"></i>
+                            <h5>Comp. Traceability</h5>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="row">
+                <div class="col-xl-2 col-lg-6 p-1">
+
+                    <div class="media align-items-stretch">
+                        <div class="p-2 text-center media-body mesMnu">
+                            <i class="fas fa-download" style="font-size: 32px;"></i>
+                            <h5>ATE</h5>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-xl-2 col-lg-6 p-1">
+                    <div class="media align-items-stretch">
+                        <div class="p-2 text-center media-body mesMnu">
+                            <i class="fas fa-bug" style="font-size: 32px;"></i>
+                            <h5>Debug</h5>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-2 col-lg-6 p-1">
+
+                    <div class="media align-items-stretch">
+                        <div class="p-2 text-center media-body mesMnu">
+                            <i class="fas fa-wrench" style="font-size: 32px;"></i>
+                            <h5>Rework</h5>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-xl-6 col-lg-6 p-1">
+
+                    <div class="media align-items-stretch">
+                        <div class="p-2 text-center media-body mesMnu">
+                            <i class="fas fa-eraser" style="font-size: 32px;"></i>
+                            <h5>Transaction Correction</h5>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 p-1">
+
+                    <div class="media align-items-stretch">
+                        <div class="p-2 text-center media-body mesMnu">
+                            <i class="fas fa-puzzle-piece" style="font-size: 32px;"></i>
+                            <h5>Merge Unit</h5>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="col-xl-3 col-lg-6 p-1">
+
+                    <div class="media align-items-stretch">
+                        <div class="p-2 text-center media-body mesMnu">
+                            <i class="fas fa-share" style="font-size: 32px;"></i>
+                            <h5>Move Unit</h5>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-lg-6 p-1">
+
+                    <div class="media align-items-stretch">
+                        <div class="p-2 text-center media-body mesMnu">
+                            <i class="fas fa-share-square" style="font-size: 32px;"></i>
+                            <h5>Transfer Unit</h5>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-xl-3 col-lg-6 p-1">
+
+                    <div class="media align-items-stretch">
+                        <div class="p-2 text-center media-body mesMnu">
+                            <i class="fas fa-clone" style="font-size: 32px;"></i>
+
+                            <h5>De-Panelize</h5>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-lg-6 p-1">
+
+                    <div class="media align-items-stretch">
+                        <div class="p-2 text-center media-body mesMnu" onclick="InitProcessStep()">
+                            <i class="fas fa-tasks" style="font-size: 32px;"></i>
+                            <h5>Process Steps</h5>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-xl-6 col-lg-6 p-1">
+
+                    <div class="media align-items-stretch">
+                        <div class="p-2 text-center media-body mesMnu">
+                            <i class="fas fa-exchange-alt" style="font-size: 32px;"></i>
+                            <h5>SN Conversion</h5>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-xl-2 col-lg-6 p-1">
+
+                    <div class="media align-items-stretch">
+                        <div class="p-2 text-center media-body mesMnu">
+                            <i class="fas fa-box" style="font-size: 32px;"></i>
+                            <h5>Pack</h5>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-2 col-lg-6 p-1">
+                    <div class="media align-items-stretch">
+                        <div class="p-2 text-center media-body mesMnu">
+                            <i class="fas fa-box-open" style="font-size: 32px;"></i>
+                            <h5>Re-Pack</h5>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-2 col-lg-6 p-1">
+
+                    <div class="media align-items-stretch">
+                        <div class="p-2 text-center media-body mesMnu">
+                            <i class="fas fa-shipping-fast" style="font-size: 32px;"></i>
+                            <h5>Ship</h5>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="col-xl-6 col-lg-6 p-1">
+
+                    <div class="media align-items-stretch">
+                        <div class="p-2 text-center media-body mesMnu">
+                            <i class="fas fa-boxes" style="font-size: 32px;"></i>
+                            <h5>Finished Goods Recieved</h5>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row h-100">
+
+                <div class="col-xl-12 col-lg-12 p-1">
+
+                    <div class="media align-items-stretch h-100">
+                        <div class="p-2 text-center media-body mesMnu">
+                            @*<i class="fas fa-shipping-fast" style="font-size: 32px;"></i>
+            <h5>Ship</h5>*@
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>

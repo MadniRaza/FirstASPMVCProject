@@ -1,0 +1,338 @@
+﻿@model OctaneApp.App.Bld.Models.BldAsyModel
+
+@{
+    Layout = null;
+}
+
+
+<div class="row h-100">
+    <div class="col-bg-12 mb-12 w-100">
+        <div class="card h-100">
+            <div class="card-header">
+                <div class="float-left">
+                    <h4>
+                        Assembly
+                    </h4>
+                </div>
+
+                <div class="float-right">
+                    <button type="button" class="btn btn-primary" style="width:100px;" onclick="Create()">Create</button>
+                </div>
+            </div>
+            <div class="card-body ">
+                <div class="row h-40">
+                    <div class="col-12">
+                        <div class="list-group  w-100" style="overflow-y:scroll; height:400px;">
+                            <table id="lstAssembly" class="table table-hover table-sm table-striped table-bordered p-0 w-100" style="overflow-y:auto; overflow-x:hidden;">
+                                <thead class="font-weight-bold" id="tableHeader">
+                                    <tr>
+                                        <th id="cAsyId" style="display:none;">AsyId</th>
+                                        <th>Site</th>
+                                        <th>Customer</th>
+                                        <th>Status</th>
+                                        <th>Asy No.</th>
+                                        <th width="10%">Asy Rev.</th>
+                                        <th>Asy Desc.</th>
+
+                                        @*<th class="text-center" width="5%">Edit</th>*@
+                                    </tr>
+                                </thead>
+                                <tbody id="tblBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row h-50">
+                    <div class="col-6">
+                        <div class="form">
+                            <div class="form-body">
+                                <h6>Assembly information</h6>
+                                <div class="row">
+                                    <div class="col-lg-6 mb-3">
+                                        <div class="section">
+                                            <h6 class="form-section"> Source Assembly</h6>
+                                            <div class="form-group row">
+                                                <div class="col-12">
+                                                    @Html.TextBoxFor(model => model.AsyNmbr, new { placeholder = @Html.DisplayNameFor(model => model.AsyNmbr), @class = "form-control", onblur = "SetAsyNo(this.value)" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-12">
+                                                    @Html.TextBoxFor(model => model.AsyRev, new { placeholder = @Html.DisplayNameFor(model => model.AsyRev), @class = "form-control", onblur = "SetAsyRev(this.value)" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-12">
+                                                    @Html.TextBoxFor(model => model.AsyDesc, new { placeholder = @Html.DisplayNameFor(model => model.AsyDesc), @class = "form-control", onblur = "SetAsyDesc(this.value)" })
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form-group row">
+                                                @Html.LabelFor(model => model.BuildType, htmlAttributes: new { @class = "col-4 col-form-label" })
+                                                <div class="col-8">
+                                                    @Html.DropDownListFor(model => model.BuildType, Model.buildType, "Select Type", new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                @Html.LabelFor(model => model.CleanType, htmlAttributes: new { @class = "col-4 col-form-label" })
+                                                <div class="col-8">
+                                                    @Html.DropDownListFor(model => model.CleanType, Model.cleanType, "Select Type", new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="section">
+                                            <h6 class="form-section">Customer Assembly</h6>
+                                            <div class="form-group row">
+                                                <div class="col-12">
+                                                    @Html.TextBoxFor(model => model.CustAsyNmbr, new { placeholder = @Html.DisplayNameFor(model => model.CustAsyNmbr), @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-12">
+                                                    @Html.TextBoxFor(model => model.CustAsyRev, new { placeholder = @Html.DisplayNameFor(model => model.CustAsyRev), @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-12">
+                                                    @Html.TextBoxFor(model => model.CustAsyDesc, new { placeholder = @Html.DisplayNameFor(model => model.CustAsyDesc), @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                @Html.LabelFor(model => model.UnitType, htmlAttributes: new { @class = "col-4 col-form-label" })
+                                                <div class="col-8">
+                                                    @Html.DropDownListFor(model => model.UnitType, Model.unitType, "Select Type", new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                @*<label class="col-3 col-form-label">Lead</label>*@
+                                                @Html.LabelFor(model => model.Leadfree, new { @class = "col-4 col-form-label" })
+                                                <div class="col-3">
+                                                    @Html.DropDownListFor(model => model.Leadfree,
+                                            new List<SelectListItem>
+                                            {
+                                            new SelectListItem {  Text= "Yes", Value= "true", Selected= true},
+                                            new SelectListItem { Text="No", Value="false"}
+                                            }, htmlAttributes: new { @class = "form-control" })
+
+                                                </div>
+
+                                                @Html.LabelFor(model => model.Status, new { @class = "col-2 col-form-label" })
+                                                <div class="col-3">
+                                                    @Html.DropDownListFor(model => model.Status,
+                                            new List<SelectListItem>
+                                            {
+                                            new SelectListItem {Text ="Open", Value="true" , Selected = true },
+                                            new SelectListItem {Text ="Close", Value="false"}
+
+                                            }, htmlAttributes: new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <h6>Route information</h6>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="section w-100">
+                                    <div class="card-body h-100 w-100">
+                                        <table class="table table-sm table-striped table-bordered p-0 w-100" id="lstRoute">
+                                            <thead class="text-center" id="tableHeader">
+                                                <tr>
+                                                    <th>Step</th>
+                                                    <th>Station</th>
+                                                    <th>Insp?</th>
+                                                    @*<th width="20%">1of</th>*@
+                                                    <th width="20%">Pass/To</th>
+                                                    <th width="20%">SkipTo</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tblRoutebody" class="h-100"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer fixed-bottom" style="margin-bottom:45px;">
+                    <div class="float-right">
+                        <button type="button" class="btn btn-primary" id="btnEdit" style="width:100px;" onclick="EditAsyRecord()">
+                            Edit
+                        </button>
+                    </div>
+                </div>
+                <div class="modal fade" id="ErrorMsg">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <h4 class="modal-title">Following error(s) occured:</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+
+                            <!-- Modal body -->
+                            <div class="modal-body" id="modal-body">
+
+                            </div>
+
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @Html.HiddenFor(model => model.AsyId)
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //LOAD ASY LIST
+            var str;
+            var asyList = @Html.Raw(Json.Encode(Model.lstAsy));
+            $.each(asyList, function(i, row){
+                str = '<tr onclick="GetAsySummaryByID(this)">';
+                str += '<td style="display:none;">' + row.AsyId + '</td>';
+                str += '<td>' + row.SiteName + '</td>';
+                str += '<td>' + row.CustName + '</td>';
+                str += '<td>' + row.CustStatus + '</td>';
+                str += '<td>' + row.AsyNmbr + '</td>';
+                str += '<td>' + row.AsyRev +  '</td>';
+                str += '<td>' + row.AsyDesc + '</td>';
+                str += '</tr>';
+                $('#lstAssembly > tbody').append(str);
+            });
+
+
+            $('#lstAssembly').DataTable({
+                select: true,
+                "pagingType": "full_numbers",
+                "pageLength": 15
+            });
+
+        });
+
+       
+        function GetAsySummaryByID(row)
+        {
+            var currenRow = $(row).closest("tr");
+            var asyId = currenRow.find('td').eq($('#lstAssembly #cAsyId').index()).text();
+            $('#AsyId').val(asyId);
+
+            var getAsyProperties =
+                {
+                    "AsyNmbr" : "",
+                    "AsyRev" : "",
+                    "AsyDesc" : "",
+                    "CustAsyNmbr" : "",
+                    "CustAsyRev" : "",
+                    "CustAsyDesc": "",
+                    "BuildType" : "",
+                    "CleanType" : "",
+                    "UnitType" : "",
+                    "Leadfree" : "",
+                    "Status" : ""
+                };
+            $.ajax({
+
+                type: 'GET',
+                url : '@Url.Action("GetAsySummary")',
+                data:{
+                    "asyId": asyId,
+                    "SetAsyProperties" :getAsyProperties
+
+                },
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    $('#lstRoute > #tblRoutebody').empty();
+                    $('#ErrorMsg  > .modal-body').empty();
+                    $('#InfoMsg').empty();
+
+                    //IF MODEL HAS ERRORS OR VALIDATION MESSAGES
+                    if (data.IsValid == false) {
+                        $('#modal-body').append(data.Message);
+                        $("#ErrorMsg").modal('show');
+                        return;
+                    }
+
+                    //AFTER MODELSTATE IS VALID
+
+                    $.each(data.AsySummary, function (Key, Value) {
+                        $('#'+Key).val(data.AsySummary[Key]);
+                    });
+
+                    $.each(data.AsyRoute, function(i, row){
+
+                        var str = "";
+                        str = '<tr>';
+                        str += '<td>' + row.StepNmbr + '</td>';
+                        str += '<td>' + row.AxsNameFull + '</td>';
+                        str += '<td>' + row.IsPassFail + '</td>';
+                        str += '<td>' + row.PassToStep + '</td>';
+                        str += '<td>' + row.SkipToStep + '</td>';
+
+                        $('#lstRoute > tbody').append(str);
+
+                    });
+
+                },
+                error: function (data) {
+                    var errorMsg = '@Request.RequestContext.HttpContext.Session["ErrorMsg"]';
+                    $('#ErrorMsg > #modal-body').empty();
+                    $('#modal-body').append(errorMsg);
+                    $("#ErrorMsg").modal('show');
+                }
+
+            });
+
+        }
+
+
+        function Create() {
+
+            $.ajax({
+                url: '/BldAsy/AsySave',
+                data: {
+                    'asyId': ''
+                },
+                success: function (data) {
+                    $("#mainBody").html(data);
+                }
+            });
+        }
+
+        function EditAsyRecord() {
+            asyId = $('#AsyId').val();
+            $('#modal-body').empty();
+            $('#InfoMsg').empty();
+            if(asyId == "" || asyId == null)
+            {
+                $('#modal-body').append("Please Select Record");
+                $("#ErrorMsg").modal('show');
+                return;
+            }
+            $.ajax({
+                url: '/BldAsy/AsySave',
+                data: {
+
+                    'asyId': asyId
+                },
+                success: function (data) {
+                    $("#mainBody").html(data);
+                }
+            });
+        }
+
+    </script>
